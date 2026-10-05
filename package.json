@@ -1,0 +1,12 @@
+{
+  "name": "alumni-portal",
+  "version": "1.0.0",
+  "description": "Alumni Tracking & Networking Portal - Design Pattern Lab",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}
