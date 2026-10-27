@@ -1,12 +1,9 @@
 {
-  "name": "alumni-portal",
+  "name": "alumni-network-portal",
   "version": "1.0.0",
-  "description": "Alumni Tracking & Networking Portal - Design Pattern Lab",
+  "private": true,
+  "description": "Alumni Tracking & Networking Portal - SE&DP project",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.19.2",
-    "express-session": "^1.18.0"
-  }
+  "scripts": { "start": "node server.js", "dev": "node server.js", "test": "node --test" },
+  "dependencies": { "bcryptjs": "^2.4.3", "better-sqlite3": "^13.0.3", "express": "^4.21.2", "express-rate-limit": "^7.5.0", "express-session": "^1.18.1", "helmet": "^8.0.0" }
 }

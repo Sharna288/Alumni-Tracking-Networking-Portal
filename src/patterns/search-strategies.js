@@ -1,0 +1,3 @@
+const strategies={department:(u,v)=>u.department.toLowerCase().includes(v.toLowerCase()),graduation_year:(u,v)=>String(u.graduation_year)===String(v),company:(u,v)=>u.company.toLowerCase().includes(v.toLowerCase()),skill:(u,v)=>u.skills.toLowerCase().includes(v.toLowerCase()),q:(u,v)=>[u.name,u.department,u.company,u.job_title,u.skills].join(' ').toLowerCase().includes(v.toLowerCase())};
+function searchAlumni(db,query={}){const all=db.prepare("SELECT * FROM users WHERE role='alumni' AND verification_status='verified' AND suspended=0 ORDER BY name").all();return all.filter(u=>Object.entries(strategies).every(([key,test])=>!query[key]||test(u,String(query[key]))));}
+module.exports={searchAlumni,strategies};
