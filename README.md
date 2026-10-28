@@ -1,517 +1,112 @@
-# 🎓 Alumni Tracking & Networking Portal
+# AlumniConnect
 
-### Software Engineering & Design Pattern Lab
+**Your Past Connects to Your Future.**
 
-> A web-based platform designed to connect alumni, students, and administrators through a centralized alumni networking and tracking system.
+AlumniConnect is a local alumni networking demo for university students, alumni, and administrators. It uses a static frontend, an Express JSON API, SQLite persistence, and server-side session authorization.
 
----
+## Features
 
-## 📌 Project Overview
+- Student and alumni sign-up and sign-in; public registration cannot create administrators.
+- Alumni profiles with administrator verification and a public directory of verified profiles.
+- Search and filters for name, department, graduation year, skills, and company, with paginated results.
+- Alumni profile detail pages that omit private email addresses.
+- Connection requests, accepted connections, and in-app notifications.
+- Mentorship requests between students and verified alumni.
+- Job and internship listings, including authorized alumni posting and ownership checks.
+- Event listings and authenticated event registration/cancellation.
+- Announcements and an administrator area for verification, user suspension, event management, and CSV export.
+- Original AlumniConnect SVG brand assets and a responsive, keyboard-accessible interface.
 
-The **Alumni Tracking & Networking Portal** is a web-based application developed as part of the **Software Engineering & Design Pattern Lab** course.
+The home page figures and sample content come from the local database. Seeded people and listings are fictional and identified as demo content in the interface.
 
-The system provides a centralized platform where:
+## Technology
 
-* 🎓 **Alumni** can create profiles, share job opportunities, and connect with students.
-* 👨‍🎓 **Students** can explore alumni, view job opportunities, and receive notifications.
-* 🛠️ **Administrators** can manage users, alumni verification, jobs, events, and platform activities.
+- Node.js and Express 4
+- SQLite with `better-sqlite3`
+- Vanilla JavaScript, HTML, and CSS
+- `express-session`, `bcryptjs`, `helmet`, and `express-rate-limit`
+- Node's built-in test runner
 
-The project demonstrates the practical implementation of three important **Design Patterns**:
+There is no Vite, React, TypeScript, Tailwind build, or separate production build command in this repository. The unused Tailwind CDN reference has been removed; the interface uses the local stylesheet.
 
-* **Singleton Pattern**
-* **Factory Pattern**
-* **Observer Pattern**
+## Requirements
 
----
+- Node.js 20 or newer
+- npm
 
-## 🎯 Project Objectives
+## Install and run
 
-The main objectives of this project are to:
+From the project directory:
 
-* Build a centralized alumni networking platform.
-* Maintain and manage alumni information efficiently.
-* Connect current students with alumni.
-* Allow alumni to share career and job opportunities.
-* Provide event and notification management.
-* Implement role-based access control.
-* Demonstrate real-world applications of software design patterns.
-* Apply software engineering principles in a practical project.
-
----
-
-## 🛠️ Technology Stack
-
-| Technology             | Purpose                  |
-| ---------------------- | ------------------------ |
-| **Node.js**            | Backend runtime          |
-| **Express.js**         | Web framework & REST API |
-| **SQLite**             | Database                 |
-| **better-sqlite3**     | SQLite database driver   |
-| **Tailwind CSS**       | User interface styling   |
-| **Vanilla JavaScript** | Frontend functionality   |
-| **HTML5**              | Application structure    |
-| **Git & GitHub**       | Version control          |
-
----
-
-## ✨ Key Features
-
-### 👨‍🎓 Student Features
-
-* Student registration and login
-* Alumni directory
-* Alumni profile viewing
-* Job opportunity browsing
-* Event information
-* Notification system
-* Networking with alumni
-
-### 🎓 Alumni Features
-
-* Alumni login
-* Profile management
-* Job opportunity posting
-* Event participation
-* Notification preferences
-* Networking with students
-
-### 🛡️ Admin Features
-
-* Admin authentication
-* User management
-* Alumni verification
-* Job management
-* Event management
-* Notification management
-* Role-Based Access Control (RBAC)
-
----
-
-# 🧩 Design Patterns Implementation
-
-One of the main purposes of this project is to demonstrate practical implementation of **Design Patterns**.
-
-## 1. 🔹 Singleton Pattern
-
-### File
-
-`src/patterns/Database.js`
-
-### Implementation
-
-The **Singleton Pattern** ensures that only **one shared database connection** is created and used throughout the application.
-
-```text
-Database.getInstance()
-        ↓
-Single Database Instance
-        ↓
-getDb()
-        ↓
-Application Routes
-```
-
-### Key Concept
-
-* Private/static instance
-* Guarded constructor
-* Single shared database connection
-* Reusable throughout the application
-
-### Usage
-
-The database is accessed through:
-
-```javascript
-getDb()
-```
-
-instead of creating multiple database connections.
-
-**Purpose:**
-To prevent unnecessary database connections and provide a single point of access to the database.
-
----
-
-## 2. 🔹 Factory Pattern
-
-### File
-
-`src/patterns/NotificationFactory.js`
-
-The **Factory Pattern** is responsible for creating different types of notification objects without exposing their creation logic to the rest of the application.
-
-### Supported Notification Types
-
-```text
-NotificationFactory
-        │
-        ├── EmailNotification
-        ├── SMSNotification
-        └── InAppNotification
-```
-
-The application uses:
-
-```javascript
-NotificationFactory.create(type, user)
-```
-
-to create the appropriate notification object.
-
-### Example
-
-```text
-type = "email"
-      ↓
-EmailNotification
-
-type = "sms"
-      ↓
-SMSNotification
-
-type = "inapp"
-      ↓
-InAppNotification
-```
-
-**Purpose:**
-To make notification creation flexible, reusable, and easy to extend with new notification types.
-
----
-
-## 3. 🔹 Observer Pattern
-
-### File
-
-`src/patterns/Observer.js`
-
-The **Observer Pattern** is used to automatically notify verified users when important events occur.
-
-### Main Components
-
-* **Subject / Publisher** → Publishes events
-* **UserObserver** → Receives updates
-* **NotificationFactory** → Creates the required notification
-
-### Flow
-
-```text
-New Job/Event Posted
-        ↓
-Publisher.notify()
-        ↓
-Verified Users
-        ↓
-UserObserver.update()
-        ↓
-NotificationFactory.create()
-        ↓
-Email / SMS / In-App Notification
-```
-
-The Observer Pattern is triggered when:
-
-```text
-POST /api/jobs
-POST /api/events
-```
-
-is executed.
-
-Each verified user is registered as a `UserObserver`.
-
-The user's preferred notification channel determines which notification is created.
-
-> Email and SMS notifications are simulated and displayed in the server console.
-
----
-
-# 📂 Project Structure
-
-```text
-alumni-portal/
-│
-├── server.js
-├── package.json
-│
-├── src/
-│   ├── seed.js
-│   │
-│   ├── patterns/
-│   │   ├── Database.js
-│   │   ├── NotificationFactory.js
-│   │   └── Observer.js
-│   │
-│   └── routes/
-│       └── api.js
-│
-└── public/
-    ├── index.html
-    └── app.js
-```
-
-### Important Files
-
-| File                     | Responsibility                         |
-| ------------------------ | -------------------------------------- |
-| `server.js`              | Application startup and initialization |
-| `seed.js`                | Database schema and sample data        |
-| `Database.js`            | Singleton database connection          |
-| `NotificationFactory.js` | Factory implementation                 |
-| `Observer.js`            | Observer implementation                |
-| `api.js`                 | REST API, modules & RBAC               |
-| `index.html`             | Frontend interface                     |
-| `app.js`                 | Frontend application logic             |
-
----
-
-# 🚀 Getting Started
-
-## Prerequisites
-
-Make sure the following are installed:
-
-* **Node.js**
-* **npm**
-* **Git** *(optional)*
-
----
-
-## 📥 Installation
-
-Clone the repository and navigate to the project directory:
-
-```bash
-git clone <repository-url>
-cd alumni-portal
-```
-
-Install the required dependencies:
-
-```bash
+```powershell
 npm install
-```
-
----
-
-## ▶️ Run the Application
-
-Start the application using:
-
-```bash
 npm start
 ```
 
-The application will be available at:
+Open <http://localhost:3000>. If port 3000 is taken, choose another port in PowerShell:
 
-```text
-http://localhost:3000
-```
-
-On the first run, the application automatically creates and seeds the database.
-
-### 🔄 Reset Database
-
-To reset the application data:
-
-1. Stop the server.
-2. Delete:
-
-```text
-alumni.db
-```
-
-3. Start the application again:
-
-```bash
+```powershell
+$env:PORT = '3001'
 npm start
 ```
 
-The database will be recreated with the initial seed data.
+The SQLite database is created and seeded on first startup at `data/alumni.db`. Local account changes, registrations, and other implemented API writes are stored in that database and survive page reloads and server restarts. Stop the server before backing up or removing the database. Do not use demo data as a production dataset.
 
----
+## Demo accounts
 
-# 🔐 Demo Login Credentials
+These seeded credentials are for local evaluation only:
 
-| Role             | Email                 | Password      |
-| ---------------- | --------------------- | ------------- |
-| 🛡️ Admin        | `admin@alumni.edu`    | `admin123`    |
-| 🎓 Alumni        | `rahim@alumni.edu`    | `password123` |
-| 👨‍🎓 Student    | `student@alumni.edu`  | `password123` |
-| ⏳ Pending Alumni | `pending1@alumni.edu` | `password123` |
+| Role          | Email                       | Password        |
+| ------------- | --------------------------- | --------------- |
+| Administrator | `admin@example.edu`         | `AdminDemo123!` |
+| Student       | `nadia.student@example.edu` | `DemoPass123!`  |
+| Student       | `arif.student@example.edu`  | `DemoPass123!`  |
+| Verified alum | `maliha.alumni@example.edu` | `DemoPass123!`  |
+| Verified alum | `rafi.alumni@example.edu`   | `DemoPass123!`  |
+| Pending alum  | `samira.alumni@example.edu` | `DemoPass123!`  |
 
-> **Note:** For testing other seeded alumni accounts, use their seeded email/first-name information with the provided demo password.
+The seeded administrator must never be exposed on a public deployment. The demo database intentionally contains this account to make the admin workflow testable locally.
 
----
+## Configuration
 
-# 🧪 Design Pattern Demonstration
+`.env.example` documents supported variables. The application does not load `.env` files itself; set variables in the process environment or deployment platform.
 
-For easy evaluation, the three patterns can be tested as follows:
+| Variable           | Purpose                                  | Default                                |
+| ------------------ | ---------------------------------------- | -------------------------------------- |
+| `PORT`             | HTTP port                                | `3000`                                 |
+| `DATABASE_FILE`    | SQLite database path                     | `./data/alumni.db`                     |
+| `SESSION_SECRET`   | Session signing secret                   | Local-only fallback outside production |
+| `INSTITUTION_NAME` | Reserved institution customization value | `Your University`                      |
+| `NODE_ENV`         | Runtime environment                      | Node default                           |
 
-### Singleton
+In production, `SESSION_SECRET` is required. Generate a value with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` and configure it directly in the deployment environment. Never commit the generated value.
 
-Open:
+## Tests and checks
 
-```text
-src/patterns/Database.js
+```powershell
+npm test
+node --check server.js
+node --check public/app.js
 ```
 
-Check:
+The integration tests launch an isolated server and temporary SQLite database. They cover password hashing, registration, anonymous session state, admin authorization, CSRF, directory privacy and filtering, connection workflows, job ownership, event registration, and admin export.
 
-```javascript
-Database.getInstance()
-```
+## Architecture and data
 
-The application uses a single shared database instance.
+- `server.js` defines the API, session and CSRF middleware, and role checks.
+- `src/db.js` initializes the SQLite schema and fictional seed records.
+- `src/patterns/` contains the database singleton, notification factory, event bus, and alumni search strategies.
+- `public/index.html`, `public/app.js`, and `public/styles.css` implement the frontend and hash-based page navigation.
+- `public/assets/` contains the AlumniConnect symbol and horizontal logo variants.
+- `tests/` contains API integration and design-pattern tests.
+- `docs/` contains schema, API, architecture, security, and testing notes.
 
-### Factory
+Passwords are bcrypt-hashed. Admin routes use server-side role checks, authenticated writes require a session CSRF token, and public alumni responses omit email addresses. Public registration only accepts student and alumni roles.
 
-Open:
+## Demo limits and production work
 
-```text
-src/patterns/NotificationFactory.js
-```
+This is a functional local demo, not a production-ready hosted service. It does not integrate an external authentication provider, email/SMS delivery, real-time messaging, a community post/comment feed, job applications, saved jobs, image uploads, password reset, or Supabase. Email and SMS are not sent. Do not represent an external application or message as delivered.
 
-Check:
+Before a real deployment, replace the in-memory Express session store with a persistent store, remove or securely provision the seeded demo administrator, configure HTTPS and a strong session secret, review Content Security Policy and proxy settings, define privacy/retention policies, add comprehensive input validation and moderation workflows, and perform security testing. The current Helmet configuration disables CSP, and the default session store is not suitable for production.
 
-```javascript
-NotificationFactory.create(type, user)
-```
-
-Different notification objects are created based on the requested type.
-
-### Observer
-
-Open:
-
-```text
-src/patterns/Observer.js
-```
-
-Then:
-
-1. Login as an **Alumni**.
-2. Go to **Jobs**.
-3. Post a new job.
-4. Login as a **Student**.
-5. Open the **Notifications** tab.
-6. The newly posted job notification should appear.
-
-The same observer mechanism is also used for events.
-
----
-
-# 🔄 Observer Flow Example
-
-```text
-Alumni Posts a Job
-        │
-        ▼
-POST /api/jobs
-        │
-        ▼
-Publisher.notify()
-        │
-        ▼
-Verified UserObservers
-        │
-        ▼
-UserObserver.update()
-        │
-        ▼
-NotificationFactory
-        │
-        ├───────────────┐
-        ▼               ▼
-     Email            SMS
-        │
-        └───────┬───────┘
-                ▼
-          In-App Notification
-```
-
----
-
-# 🔒 Security & Access Control
-
-The application includes **Role-Based Access Control (RBAC)** to restrict functionality based on user roles.
-
-### User Roles
-
-```text
-Admin
-  │
-  ├── User Management
-  ├── Alumni Verification
-  ├── Job Management
-  └── Event Management
-
-Alumni
-  │
-  ├── Profile
-  ├── Jobs
-  └── Events
-
-Student
-  │
-  ├── Alumni Directory
-  ├── Jobs
-  └── Notifications
-```
-
----
-
-# 🌱 Future Improvements
-
-The project can be extended with:
-
-* Real email notification integration
-* Real SMS notification service
-* Alumni-to-student messaging
-* Advanced search and filtering
-* LinkedIn profile integration
-* Alumni mentorship system
-* Career recommendation system
-* Real-time notifications using WebSockets
-* Advanced analytics dashboard
-* Cloud database integration
-
----
-
-# 👥 Project Information
-
-**Project:** Alumni Tracking & Networking Portal
-**Course:** Software Engineering & Design Pattern Lab
-**Category:** Web Application
-**Architecture:** Client–Server / REST API
-**Database:** SQLite
-**Design Patterns:** Singleton, Factory, Observer
-
----
-
-# 📚 Learning Outcomes
-
-Through this project, the team demonstrates practical understanding of:
-
-* Software Engineering principles
-* Object-Oriented Design
-* Design Patterns
-* RESTful API development
-* Database management
-* Role-Based Access Control
-* Frontend–Backend integration
-* Version control with Git/GitHub
-* Practical software architecture
-
----
-
-## ⭐ Conclusion
-
-The **Alumni Tracking & Networking Portal** demonstrates how software engineering concepts and design patterns can be applied to a real-world networking platform.
-
-The implementation of the **Singleton, Factory, and Observer Patterns** improves the application's structure, maintainability, scalability, and separation of responsibilities.
-
-This project was developed as part of the:
-
-> **Software Engineering & Design Pattern Lab**
+No external backend credentials are required for local use. Remote Google Fonts and Unsplash images are used for visual presentation; a network connection is needed for those assets, but core app data is local.
