@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap");
 :root {
   --navy: #172b4d;
   --blue: #243b64;
@@ -1273,3 +1273,155 @@ dialog {
     margin-bottom: 15px;
   }
 }
+
+/* Refined alumni portal visual system */
+:root { --navy:#17324d; --blue:#244e60; --sky:#eef3f3; --ink:#24313b; --muted:#73818a; --line:#e5e9e8; --paper:#f6f7f5; --green:#4f786d; --teal:#75a196; --champagne:#d7c8a8; }
+body { font-family:"DM Sans",sans-serif; background:var(--paper); }
+.sidebar { background:linear-gradient(180deg,#142d43 0%,#1d3e50 100%); }
+.sidebar nav a { border-radius:10px; transition:background .2s ease,color .2s ease; }
+.sidebar nav a:hover,.sidebar nav a.active { background:#ffffff16; }
+.topbar { box-shadow:0 3px 16px #172b4d08; }
+.button { border-radius:8px; background:#315f62; transition:transform .18s ease,background .18s ease,box-shadow .18s ease; }
+.button:hover { background:#244b50; transform:translateY(-1px); box-shadow:0 7px 18px #244b5026; }
+.button-outline { background:#fff; border-color:#d9e1df; color:var(--navy); }
+.hero { background:linear-gradient(118deg,#18394d,#426c68); border-radius:20px; box-shadow:0 18px 46px #18394d17; }
+.hero h1,.community-section h2,.next-steps h2 { font-family:"DM Serif Display",Georgia,serif; font-weight:400; letter-spacing:-.02em; }
+.hero-visual { border-radius:16px; }
+.stat,.card,.panel { border-radius:13px; border-color:#e7ebea; box-shadow:0 5px 20px #203c4a08; }
+.card { transition:transform .2s ease,box-shadow .2s ease; }
+.card:hover { transform:translateY(-3px); box-shadow:0 13px 28px #203c4a12; }
+.input,select,textarea { border-radius:8px; }
+
+body.guest-mode { min-height:100vh; background:#f3f4f0; }
+.guest-mode .sidebar,.guest-mode .topbar,.guest-mode footer { display:none; }
+.guest-mode .main { margin-left:0; min-height:100vh; }
+.guest-mode .content { max-width:none; width:100%; padding:0; margin:0; }
+.welcome-screen { min-height:100vh; display:grid; grid-template-columns:minmax(0,1.08fr) minmax(430px,.92fr); background:#f7f7f3; }
+.welcome-photo { min-height:100vh; position:relative; isolation:isolate; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:44px clamp(30px,6vw,88px); color:#fff; background:#1d3a43 url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1800&q=88") center/cover no-repeat; }
+.photo-shade { position:absolute; z-index:-1; inset:0; background:linear-gradient(180deg,#102b3a68 0%,#142e3b22 34%,#102633b8 100%),linear-gradient(90deg,#102a38a8,#102a3820 92%); }
+.welcome-brand { z-index:1; width:190px; display:block; }
+.welcome-brand img { display:block; width:100%; max-height:42px; object-fit:contain; object-position:left center; }
+.welcome-story { position:relative; z-index:1; max-width:600px; margin:60px 0 30px; }
+.welcome-kicker,.auth-eyebrow { font-size:10px; font-weight:700; letter-spacing:2px; }
+.welcome-kicker { color:#d8c99f; }
+.welcome-story h1 { margin:19px 0 14px; font:400 clamp(46px,6vw,76px)/1.03 "DM Serif Display",Georgia,serif; letter-spacing:-1.2px; }
+.welcome-story>p { margin:0; color:#f2f4f0e8; font-size:16px; line-height:1.7; }
+.welcome-caption { display:flex; align-items:center; gap:12px; margin-top:56px; color:#ffffffd9; font-size:12px; letter-spacing:.2px; }
+.caption-line { width:36px; height:1px; background:#d8c99f; }
+.photo-credit { position:relative; z-index:1; color:#ffffffa8; font-size:9px; letter-spacing:1.7px; }
+.welcome-panel { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:52px clamp(32px,6vw,92px) 22px; }
+.auth-card { width:min(100%,420px); margin:auto; }
+.auth-eyebrow { color:#628276; }
+.auth-card h2 { margin:16px 0 8px; color:#203848; font:400 40px/1.12 "DM Serif Display",Georgia,serif; letter-spacing:-.5px; }
+.auth-intro { max-width:370px; margin:0 0 30px; color:#718087; font-size:13px; line-height:1.7; }
+.welcome-form { display:grid; gap:18px; }
+.welcome-form .field { gap:8px; }
+.welcome-form label { color:#344650; font-size:12px; font-weight:600; }
+.welcome-form .input { min-height:48px; padding:0 14px; border-color:#dfe5e2; background:#fff; font-size:13px; }
+.welcome-form .input::placeholder { color:#a3adaa; }
+.welcome-form .input:focus { border-color:#6f9588; box-shadow:0 0 0 3px #6f95881c; outline:0; }
+.welcome-form .password-control { gap:0; }
+.welcome-form .password-control .input { border-radius:8px 0 0 8px; }
+.welcome-form .password-toggle { min-width:65px; border-left:0; border-radius:0 8px 8px 0; color:#607b75; }
+.auth-meta { display:flex; align-items:center; gap:9px; margin-top:-4px; color:#84918f; font-size:10px; }
+.auth-meta span:nth-child(2) { color:#7b9c8c; font-size:8px; }
+.welcome-submit { width:100%; min-height:50px; justify-content:space-between; padding:0 17px; font-size:13px; box-shadow:0 7px 18px #315f6224; }
+.welcome-submit span { font-size:18px; }
+.auth-switch { margin-top:24px; color:#74817f; text-align:center; font-size:12px; }
+.auth-switch button { border:0; padding:3px 4px; background:none; color:#315f62; font:700 12px "DM Sans",sans-serif; cursor:pointer; }
+.auth-switch button:hover { text-decoration:underline; text-underline-offset:3px; }
+.welcome-demo { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:32px; padding-top:18px; border-top:1px solid #e6eae6; color:#8b9791; font-size:10px; }
+.welcome-demo span:first-child { color:#a39368; }
+.welcome-footer { margin:18px 0 0; color:#9aa39e; font-size:10px; text-align:center; }
+.welcome-footer span { padding:0 5px; }
+.welcome-mobile-brand { display:none; }
+@media(max-width:850px) { .welcome-screen { grid-template-columns:minmax(0,1fr) minmax(380px,.95fr); } .welcome-photo { padding:34px; } .welcome-story h1 { font-size:54px; } .welcome-panel { padding:38px 32px 18px; } }
+@media(max-width:680px) { .welcome-screen { min-height:100svh; display:flex; flex-direction:column; } .welcome-photo { min-height:280px; height:35svh; max-height:390px; padding:21px 24px; } .welcome-brand { width:150px; } .welcome-story { margin:auto 0 5px; } .welcome-kicker { font-size:8px; } .welcome-story h1 { margin:9px 0 6px; font-size:clamp(34px,9vw,48px); } .welcome-story>p { font-size:12px; } .welcome-caption { display:none; } .photo-credit { font-size:7px; } .welcome-panel { flex:1; min-height:0; align-items:stretch; padding:28px 25px 16px; } .auth-card { width:min(100%,440px); } .auth-card h2 { font-size:34px; } .auth-intro { margin-bottom:22px; } .welcome-form { gap:14px; } .welcome-mobile-brand { display:none; } .welcome-demo { margin-top:22px; } .welcome-footer { margin-top:16px; } }
+@media(prefers-reduced-motion:reduce) { .card,.button { transition:none; } }
+
+/* AlumniConnect login hero: university alumni editorial treatment */
+:root { --navy:#172B4D; --blue:#243B64; --paper:#FAF9F6; --teal:#6C9C96; --champagne:#D8C5A0; }
+body.guest-mode { background:#FAF9F6; color:#172B4D; overflow-x:hidden; }
+.guest-mode .main { width:100%; }
+.welcome-screen { min-height:100vh; min-height:100svh; grid-template-columns:minmax(0,1.06fr) minmax(420px,.94fr); background:#FAF9F6; }
+.welcome-photo { min-width:0; background-color:#172B4D; background-image:url("/assets/alumni-networking.jpeg"); background-position:center 46%; background-size:cover; padding:42px clamp(34px,6vw,84px); }
+.photo-shade { background:linear-gradient(180deg,rgba(23,43,77,.22) 0%,rgba(23,43,77,.12) 30%,rgba(23,43,77,.78) 100%),linear-gradient(90deg,rgba(23,43,77,.42) 0%,rgba(23,43,77,.08) 100%); }
+.welcome-brand { width:188px; }
+.welcome-brand img { max-height:44px; }
+.welcome-story { width:min(100%,590px); margin:50px 0 42px; }
+.welcome-story h1 { max-width:580px; margin:0 0 20px; color:#fff; font:400 clamp(46px,5vw,70px)/1.04 "DM Serif Display",Georgia,serif; letter-spacing:-.8px; text-wrap:balance; }
+.welcome-story>p { max-width:470px; margin:0; color:rgba(255,255,255,.9); font-size:14px; line-height:1.8; }
+.welcome-caption { gap:10px; margin-top:30px; color:#F5EBDD; font-size:11px; font-weight:600; letter-spacing:1.1px; }
+.welcome-caption span[aria-hidden] { color:#D8C5A0; font-size:13px; }
+.photo-credit { color:rgba(255,255,255,.76); }
+.welcome-panel { background:#FAF9F6; padding:48px clamp(34px,6vw,90px) 24px; }
+.auth-card h2 { color:#172B4D; }
+.auth-eyebrow { color:#6C817B; letter-spacing:1.8px; }
+.auth-intro { color:#687386; }
+.welcome-form label { color:#243B64; }
+.welcome-form .input { min-height:50px; border-color:#dedfdc; background:#fff; color:#202938; }
+.welcome-form .input:focus { border-color:#6C9C96; box-shadow:0 0 0 3px rgba(108,156,150,.18); }
+.welcome-form .password-toggle { border-color:#dedfdc; color:#243B64; background:#fff; }
+.welcome-form .password-toggle:hover { background:#f1f3ef; }
+.auth-meta { color:#738078; }
+.auth-meta span:nth-child(2) { color:#6C9C96; }
+.welcome-submit { min-height:52px; border-radius:8px; background:#243B64; color:#fff; box-shadow:0 8px 18px rgba(36,59,100,.16); }
+.welcome-submit:hover { background:#172B4D; box-shadow:0 10px 22px rgba(23,43,77,.2); }
+.auth-switch { color:#687386; }
+.auth-switch button { color:#243B64; }
+.welcome-demo { border-color:#e7e5df; color:#81877f; }
+.welcome-demo span:first-child { color:#b19b6e; }
+.welcome-footer { color:#8d918b; }
+@media(max-width:1000px) and (min-width:841px) {
+  .welcome-screen { grid-template-columns:minmax(0,1fr) minmax(370px,.95fr); }
+  .welcome-photo { padding:34px; }
+  .welcome-story h1 { font-size:clamp(43px,5vw,58px); }
+  .welcome-panel { padding-right:34px; padding-left:34px; }
+}
+@media(max-width:840px) {
+  .welcome-screen { display:flex; flex-direction:column; min-height:100svh; }
+  .welcome-photo { height:clamp(270px,38svh,380px); min-height:0; padding:25px clamp(24px,5vw,48px); background-position:center 43%; }
+  .welcome-story { margin:auto 0 0; }
+  .welcome-story h1 { font-size:clamp(40px,6vw,56px); }
+  .welcome-panel { min-height:0; padding:35px 26px 20px; }
+}
+@media(max-width:680px) {
+  .welcome-screen { min-height:100svh; }
+  .welcome-photo { min-height:0; height:30svh; max-height:300px; padding:20px 24px 22px; background-position:center 43%; }
+  .photo-shade { background:linear-gradient(180deg,rgba(23,43,77,.28),rgba(23,43,77,.72)); }
+  .welcome-brand { width:150px; }
+  .welcome-story { margin:auto 0 0; }
+  .welcome-story h1 { max-width:440px; margin:0 0 8px; font-size:clamp(34px,8vw,46px); line-height:1.02; letter-spacing:-.35px; }
+  .welcome-story>p { max-width:520px; font-size:11px; line-height:1.55; }
+  .welcome-caption { display:flex; margin-top:10px; font-size:9px; letter-spacing:.8px; }
+  .photo-credit { font-size:7px; letter-spacing:1.25px; }
+  .welcome-panel { min-height:0; padding:28px 24px 16px; }
+  .auth-card h2 { margin-top:12px; font-size:32px; }
+  .auth-intro { margin-bottom:20px; }
+  .welcome-form { gap:13px; }
+  .welcome-demo { margin-top:20px; }
+}
+@media(max-width:360px) {
+  .welcome-photo { height:32svh; padding-right:18px; padding-left:18px; }
+  .welcome-story h1 { font-size:32px; }
+  .welcome-story>p { font-size:10px; }
+  .welcome-panel { padding-right:19px; padding-left:19px; }
+}
+
+/* Natural landscape framing for the campus hero photo */
+.welcome-photo { background-image:none; }
+.welcome-photo::before { content:""; position:absolute; z-index:-2; inset:0; background-image:url("/assets/alumni-networking.jpeg"); background-position:center 46%; background-size:cover; background-repeat:no-repeat; transform:none; }
+@media(max-width:840px) and (min-width:681px) { .welcome-photo { height:min(50svh,560px); min-height:360px; } .welcome-photo::before { background-position:center 46%; } }
+@media(max-width:680px) { .welcome-photo::before { background-position:center 42%; } }
+
+/* Login panel color and depth refinement */
+.welcome-panel { position:relative; isolation:isolate; background:radial-gradient(ellipse at 86% 13%,rgba(108,156,150,.2),transparent 34%),radial-gradient(ellipse at 8% 88%,rgba(216,197,160,.18),transparent 31%),linear-gradient(145deg,#edf1f0 0%,#e4eaec 54%,#e7eceb 100%); }
+.welcome-panel::before { content:""; position:absolute; z-index:-1; top:-190px; right:-140px; width:420px; aspect-ratio:1; border:1px solid rgba(36,59,100,.08); border-radius:50%; box-shadow:0 0 0 32px rgba(108,156,150,.035),0 0 0 68px rgba(216,197,160,.035); pointer-events:none; }
+.auth-card { position:relative; width:min(100%,500px); padding:42px 40px 34px; border:1px solid rgba(23,43,77,.09); border-radius:18px; background:rgba(250,249,246,.94); box-shadow:0 24px 65px rgba(23,43,77,.11),0 3px 10px rgba(23,43,77,.04); }
+.auth-card::before { content:""; position:absolute; top:0; left:40px; right:40px; height:3px; border-radius:0 0 3px 3px; background:linear-gradient(90deg,#6C9C96,#D8C5A0 58%,#243B64); }
+.auth-card h2 { color:#172B4D; }
+.auth-intro { color:#667681; }
+.welcome-form .input { background:#fff; border-color:#d9e1df; }
+.welcome-demo { border-color:#e1e5e1; }
+.welcome-footer { position:relative; z-index:1; color:#687681; }
+@media(max-width:680px) { .welcome-panel { background:linear-gradient(155deg,#edf1f0 0%,#e6eceb 100%); } .welcome-panel::before { top:-250px; right:-210px; width:340px; } .auth-card { padding:32px 24px 26px; border-radius:15px; } .auth-card::before { left:24px; right:24px; } }
