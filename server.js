@@ -92,6 +92,9 @@ const safeUser = (u) => ({
   portfolio_url: u.portfolio_url,
   achievements: u.achievements,
   research_interests: u.research_interests,
+  university_id: u.university_id,
+  university_name: u.university_name || "",
+  is_featured: !!u.is_featured,
 });
 const publicAlumni = (u) => {
   const { email, ...profile } = safeUser(u);
@@ -138,6 +141,7 @@ app.post("/api/auth/register", authLimit, (req, res, next) => {
       department = "",
       graduation_year = null,
       degree = "",
+      university_id = null,
     } = req.body;
     if (
       !name ||
@@ -150,12 +154,13 @@ app.post("/api/auth/register", authLimit, (req, res, next) => {
       });
     if (!["student", "alumni"].includes(role))
       return res.status(400).json({ error: "Choose student or alumni" });
+    const universityId=university_id?Number(university_id):null;if(university_id&&(!Number.isInteger(universityId)||!db.prepare('SELECT id FROM universities WHERE id=? AND active=1').get(universityId)))return res.status(400).json({error:'Choose a listed university'});
     const bcrypt = require("bcryptjs");
     const hash = bcrypt.hashSync(password, 12);
     const status = role === "alumni" ? "pending" : "not_applicable";
     const result = db
       .prepare(
-        "INSERT INTO users(name,email,password_hash,role,department,graduation_year,degree,verification_status,source_type) VALUES(?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO users(name,email,password_hash,role,department,graduation_year,degree,verification_status,source_type,university_id,department_confirmation_status) VALUES(?,?,?,?,?,?,?,?,?,?, 'unverified')",
       )
       .run(
         name.trim(),
@@ -167,6 +172,7 @@ app.post("/api/auth/register", authLimit, (req, res, next) => {
         degree,
         status,
         "user_submitted",
+        universityId,
       );
     req.session.user = {
       id: Number(result.lastInsertRowid),
@@ -219,7 +225,9 @@ app.get("/api/auth/me", (req, res) => {
 });
 
 app.get("/api/alumni", (req, res) => {
-  const result = searchAlumniPage(db, { ...req.query, viewer_id: req.session.user?.id || 0 });
+  const requestedUniversity = req.query.university;
+  const institution = requestedUniversity ? db.prepare("SELECT id FROM universities WHERE active=1 AND (CAST(id AS TEXT)=? OR lower(name)=lower(?))").get(String(requestedUniversity), String(requestedUniversity)) : null;
+  const result = searchAlumniPage(db, { ...req.query, university_id: requestedUniversity ? (institution?.id || -1) : undefined, viewer_id: req.session.user?.id || 0 });
   res.json({ ...result, items: result.items.map(publicAlumni) });
 });
 app.get("/api/alumni/me", requireAuth, (req, res) =>
@@ -257,8 +265,10 @@ app.patch("/api/alumni/me", requireAuth, (req, res) => {
     "portfolio_url",
     "achievements",
     "research_interests",
+    "university_id",
   ];
   const fields = allowed.filter((k) => Object.hasOwn(req.body, k));
+  if(Object.hasOwn(req.body,'university_id')&&req.body.university_id){const universityId=Number(req.body.university_id);if(!Number.isInteger(universityId)||!db.prepare('SELECT id FROM universities WHERE id=? AND active=1').get(universityId))return res.status(400).json({error:'Choose a listed university'});req.body.university_id=universityId;}else if(Object.hasOwn(req.body,'university_id'))req.body.university_id=null;
   if (!fields.length)
     return res.status(400).json({ error: "No editable fields provided" });
   for (const key of ["linkedin_url", "github_url", "website_url", "portfolio_url", "profile_photo_url", "cover_photo_url"]) if (req.body[key] && !/^https:\/\//i.test(req.body[key]))
@@ -273,11 +283,12 @@ app.patch("/api/alumni/me", requireAuth, (req, res) => {
   )
     return res.status(400).json({ error: "Invalid graduation year" });
   const sql = fields.map((k) => `${k}=?`).join(",");
+  const departmentChanged=fields.includes('department')||fields.includes('university_id');
   const reverify =
     db.prepare("SELECT role FROM users WHERE id=?").get(req.session.user.id)
       ?.role === "alumni";
   db.prepare(
-    `UPDATE users SET ${sql},${reverify ? "verification_status='pending',verified_by=NULL,verified_at=NULL," : ""}updated_at=CURRENT_TIMESTAMP WHERE id=?`,
+    `UPDATE users SET ${sql},${departmentChanged?"department_confirmation_status='unverified',":""}${reverify ? "verification_status='pending',verified_by=NULL,verified_at=NULL," : ""}updated_at=CURRENT_TIMESTAMP WHERE id=?`,
   ).run(...fields.map((k) => req.body[k]), req.session.user.id);
   res.json({
     user: safeUser(
@@ -288,7 +299,7 @@ app.patch("/api/alumni/me", requireAuth, (req, res) => {
 app.get("/api/alumni/:id", (req, res) => {
   const u = db
     .prepare(
-      "SELECT * FROM users WHERE id=? AND role='alumni' AND verification_status='verified'",
+      "SELECT * FROM users WHERE id=? AND role='alumni' AND (verification_status='verified' OR source_type='fictional_demo') AND suspended=0",
     )
     .get(req.params.id);
   if (!u)
@@ -565,7 +576,7 @@ app.get("/api/admin/users", requireAuth, requireRole("admin"), (req, res) =>
   res.json({
     items: db
       .prepare(
-        "SELECT id,name,email,role,department,graduation_year,verification_status,suspended,source_type,source_url,created_at FROM users ORDER BY created_at DESC",
+        "SELECT id,name,email,role,department,graduation_year,verification_status,suspended,source_type,source_url,created_at FROM users WHERE source_type!='fictional_demo' ORDER BY created_at DESC",
       )
       .all(),
   }),
@@ -579,7 +590,7 @@ app.patch(
     if (!["verified", "rejected", "pending"].includes(status))
       return res.status(400).json({ error: "Invalid verification status" });
     const u = db
-      .prepare("SELECT id FROM users WHERE id=? AND role='alumni'")
+      .prepare("SELECT id FROM users WHERE id=? AND role='alumni' AND source_type!='fictional_demo'")
       .get(req.params.id);
     if (!u) return res.status(404).json({ error: "Alumni not found" });
     db.transaction(() => {

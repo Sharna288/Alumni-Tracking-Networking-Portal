@@ -1,0 +1,314 @@
+{
+  "metadata": {
+    "title": "AlumniConnect configurable department catalog",
+    "generated_at": "2026-10-28",
+    "notes": "Starting catalog requested by the project owner. Not a claim that any listed university offers a department. University-department associations remain unverified until an administrator confirms them against an official university source."
+  },
+  "count": 38,
+  "departments": [
+    {
+      "name": "Computer Science & Engineering (CSE)",
+      "description": "Computing, software systems, and engineering.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Electrical & Electronic Engineering (EEE)",
+      "description": "Electrical, electronics, and communications engineering.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Software Engineering",
+      "description": "Software design, development, and delivery.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Information Technology",
+      "description": "Information systems and applied computing.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Data Science",
+      "description": "Data analytics, statistics, and machine learning.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Civil Engineering",
+      "description": "Civil infrastructure and structural engineering.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Civil and Environmental Engineering",
+      "description": "Civil systems, environmental engineering, and sustainable infrastructure.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Mechanical Engineering",
+      "description": "Mechanical systems and manufacturing.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Industrial & Production Engineering",
+      "description": "Industrial systems, operations, and production.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Textile Engineering",
+      "description": "Textile science, materials, and production.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Architecture",
+      "description": "Architecture, urban design, and the built environment.",
+      "group": "Engineering and technology",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Business Administration (BBA)",
+      "description": "Business leadership and administration.",
+      "group": "Business",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Accounting",
+      "description": "Accounting, audit, and financial reporting.",
+      "group": "Business",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Finance & Banking",
+      "description": "Finance, banking, and financial services.",
+      "group": "Business",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Marketing",
+      "description": "Marketing, communications, and customer insight.",
+      "group": "Business",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Management",
+      "description": "Organizations, operations, and leadership.",
+      "group": "Business",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Human Resource Management",
+      "description": "People operations and human resource practice.",
+      "group": "Business",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "English",
+      "description": "English language, literature, and communication.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Economics",
+      "description": "Economic theory, policy, and analysis.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Law / LLB",
+      "description": "Legal studies and professional law.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Sociology",
+      "description": "Society, communities, and social research.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Political Science",
+      "description": "Political systems, governance, and policy.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "International Relations",
+      "description": "Global affairs, diplomacy, and international policy.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Public Administration",
+      "description": "Public institutions, administration, and governance.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Journalism & Media Studies",
+      "description": "Journalism, media, and communications.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Development Studies",
+      "description": "Development practice, policy, and community change.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Education",
+      "description": "Teaching, learning, and educational practice.",
+      "group": "Arts, social sciences and law",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Mathematics",
+      "description": "Pure and applied mathematics.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Statistics",
+      "description": "Statistical science and quantitative methods.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Physics",
+      "description": "Physical sciences and research.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Chemistry",
+      "description": "Chemical sciences and laboratory research.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Pharmacy",
+      "description": "Pharmaceutical science and practice.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Biotechnology",
+      "description": "Biological science and biotechnology.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Agriculture",
+      "description": "Agricultural science and food systems.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Veterinary Science",
+      "description": "Animal health, veterinary medicine, and research.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Public Health",
+      "description": "Public health practice, policy, and research.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Nursing",
+      "description": "Nursing practice, education, and patient care.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    },
+    {
+      "name": "Other / University-specific programs",
+      "description": "A configurable placeholder for programs confirmed by administrators.",
+      "group": "Science and specialized disciplines",
+      "verification_status": "unverified",
+      "source_url": null,
+      "retrieved_at": null
+    }
+  ]
+}
