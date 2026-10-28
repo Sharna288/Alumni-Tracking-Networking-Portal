@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const { initialize } = require("./src/db");
 const { NotificationFactory } = require("./src/patterns/notification-factory");
 const { events } = require("./src/patterns/event-bus");
-const { searchAlumni } = require("./src/patterns/search-strategies");
+const { searchAlumni, searchAlumniPage } = require("./src/patterns/search-strategies");
 
 const db = initialize();
 const app = express();
@@ -74,6 +74,24 @@ const safeUser = (u) => ({
   linkedin_url: u.linkedin_url,
   verification_status: u.verification_status,
   source_type: u.source_type,
+  headline: u.headline,
+  city: u.city,
+  country: u.country,
+  location: u.location,
+  industry: u.industry,
+  profile_photo_url: u.profile_photo_url,
+  cover_photo_url: u.cover_photo_url,
+  mentorship_available: !!u.mentorship_available,
+  mentorship_areas: u.mentorship_areas,
+  career_interests: u.career_interests,
+  currently_hiring: !!u.currently_hiring,
+  profile_visibility: u.profile_visibility,
+  email_visibility: !!u.email_visibility,
+  website_url: u.website_url,
+  github_url: u.github_url,
+  portfolio_url: u.portfolio_url,
+  achievements: u.achievements,
+  research_interests: u.research_interests,
 });
 const publicAlumni = (u) => {
   const { email, ...profile } = safeUser(u);
@@ -104,6 +122,8 @@ events.subscribe("job.created", (e) => {
     .all(e.author))
     notify(u.id, "job", `New opportunity: ${e.title}`);
 });
+
+require("./src/feature-routes")(app, { db, requireAuth, requireRole, notify, publicAlumni });
 
 app.get("/api/health", (req, res) =>
   res.json({ status: "ok", service: "Alumni Portal" }),
@@ -199,15 +219,8 @@ app.get("/api/auth/me", (req, res) => {
 });
 
 app.get("/api/alumni", (req, res) => {
-  const page = Math.max(1, Number(req.query.page) || 1),
-    limit = Math.min(50, Math.max(1, Number(req.query.limit) || 12));
-  const items = searchAlumni(db, req.query);
-  res.json({
-    items: items.slice((page - 1) * limit, page * limit).map(publicAlumni),
-    page,
-    limit,
-    total: items.length,
-  });
+  const result = searchAlumniPage(db, { ...req.query, viewer_id: req.session.user?.id || 0 });
+  res.json({ ...result, items: result.items.map(publicAlumni) });
 });
 app.get("/api/alumni/me", requireAuth, (req, res) =>
   res.json({
@@ -226,14 +239,32 @@ app.patch("/api/alumni/me", requireAuth, (req, res) => {
     "job_title",
     "bio",
     "linkedin_url",
+    "headline",
+    "city",
+    "country",
+    "location",
+    "industry",
+    "profile_photo_url",
+    "cover_photo_url",
+    "mentorship_available",
+    "mentorship_areas",
+    "career_interests",
+    "currently_hiring",
+    "profile_visibility",
+    "email_visibility",
+    "website_url",
+    "github_url",
+    "portfolio_url",
+    "achievements",
+    "research_interests",
   ];
   const fields = allowed.filter((k) => Object.hasOwn(req.body, k));
   if (!fields.length)
     return res.status(400).json({ error: "No editable fields provided" });
-  if (req.body.linkedin_url && !/^https:\/\//i.test(req.body.linkedin_url))
+  for (const key of ["linkedin_url", "github_url", "website_url", "portfolio_url", "profile_photo_url", "cover_photo_url"]) if (req.body[key] && !/^https:\/\//i.test(req.body[key]))
     return res
       .status(400)
-      .json({ error: "Professional profile URL must use HTTPS" });
+      .json({ error: "Professional profile links must use HTTPS" });
   if (
     req.body.graduation_year &&
     (!Number.isInteger(Number(req.body.graduation_year)) ||

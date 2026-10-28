@@ -30,35 +30,21 @@
         >
           ×
         </button>
-        <nav id="nav">
-          <a href="#home" data-view="home"
-            ><span class="nav-icon" aria-hidden="true">⌂</span
-            ><span>Overview</span></a
-          ><a href="#profile" data-view="profile"
-            ><span class="nav-icon" aria-hidden="true">◉</span
-            ><span>My profile</span></a
-          ><a href="#directory" data-view="directory"
-            ><span class="nav-icon" aria-hidden="true">◎</span
-            ><span>Explore alumni</span></a
-          ><a href="#connections" data-view="connections"
-            ><span class="nav-icon" aria-hidden="true">⇄</span
-            ><span>Connections</span></a
-          ><a href="#opportunities" data-view="opportunities"
-            ><span class="nav-icon" aria-hidden="true">↗</span
-            ><span>Careers</span></a
-          ><a href="#events" data-view="events"
-            ><span class="nav-icon" aria-hidden="true">▦</span
-            ><span>Events</span></a
-          ><a href="#mentorship" data-view="mentorship"
-            ><span class="nav-icon" aria-hidden="true">✳</span
-            ><span>Mentorship</span></a
-          ><a href="#announcements" data-view="announcements"
-            ><span class="nav-icon" aria-hidden="true">◉</span
-            ><span>Community news</span></a
-          ><a href="#admin" data-view="admin" class="admin-only"
-            ><span class="nav-icon" aria-hidden="true">⚙</span
-            ><span>Administration</span></a
-          >
+                <nav id="nav">
+          <a href="#home" data-view="home"><span class="nav-icon" aria-hidden="true">⌂</span><span>Overview</span></a>
+          <a href="#profile" data-view="profile"><span class="nav-icon" aria-hidden="true">◉</span><span>My profile</span></a>
+          <a href="#directory" data-view="directory"><span class="nav-icon" aria-hidden="true">◎</span><span>Explore Alumni</span></a>
+          <a href="#alumni-network" data-view="alumni-network" class="network-nav"><span class="nav-icon" aria-hidden="true">♧</span><span>Alumni Network</span></a>
+          <a href="#departments" data-view="departments"><span class="nav-icon" aria-hidden="true">▤</span><span>Departments</span></a>
+          <a href="#community" data-view="community"><span class="nav-icon" aria-hidden="true">◌</span><span>Community</span></a>
+          <a href="#messages" data-view="messages"><span class="nav-icon" aria-hidden="true">✉</span><span>Messages</span></a>
+          <a href="#settings" data-view="settings"><span class="nav-icon" aria-hidden="true">⚙</span><span>Settings</span></a>
+          <a href="#connections" data-view="connections"><span class="nav-icon" aria-hidden="true">⇄</span><span>Connections</span></a>
+          <a href="#opportunities" data-view="opportunities"><span class="nav-icon" aria-hidden="true">↗</span><span>Careers</span></a>
+          <a href="#events" data-view="events"><span class="nav-icon" aria-hidden="true">▦</span><span>Events</span></a>
+          <a href="#mentorship" data-view="mentorship"><span class="nav-icon" aria-hidden="true">✳</span><span>Mentorship</span></a>
+          <a href="#announcements" data-view="announcements"><span class="nav-icon" aria-hidden="true">◉</span><span>Community News</span></a>
+          <a href="#admin" data-view="admin" class="admin-only"><span class="nav-icon" aria-hidden="true">⚙</span><span>Administration</span></a>
         </nav>
         <div class="side-foot">
           <div class="demo-badge">DEMO ENVIRONMENT</div>
@@ -82,7 +68,7 @@
               A community that moves forward together.
             </div>
           </div>
-          <div class="top-actions">
+          <div class="top-actions"><label class="global-search"><span class="sr-only">Search AlumniConnect</span><input id="globalSearch" type="search" placeholder="Search people, jobs, events…" autocomplete="off"></label><div id="globalResults" class="global-results hidden"></div>
             <button id="notifyBtn" class="icon-button" title="Notifications">
               ♧<i id="unread"></i></button
             ><button id="authBtn" class="button button-outline">Sign in</button>

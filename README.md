@@ -8,16 +8,22 @@ AlumniConnect is a local alumni networking demo for university students, alumni,
 
 - Student and alumni sign-up and sign-in; public registration cannot create administrators.
 - Alumni profiles with administrator verification and a public directory of verified profiles.
-- Search and filters for name, department, graduation year, skills, and company, with paginated results.
-- Alumni profile detail pages that omit private email addresses.
-- Connection requests, accepted connections, and in-app notifications.
+- Configurable departments with alumni totals, featured profiles, and graduation-year breakdowns.
+- Dedicated Alumni Network and Explore Alumni pages with combined filters for department, degree, year range, profession, company, industry, location, skills, mentor availability, and hiring status.
+- Global search across alumni, departments, jobs, and events; directory filters are bookmarkable.
+- Individual alumni profile routes with privacy-aware email visibility, education and career timelines, skills, achievements, projects, certifications, and optional HTTPS professional links.
+- Personalized dashboard with profile completion, connection requests, suggested alumni, mentors, opportunities, and upcoming events.
+- Connection requests, accepted connections, blocking, reporting, and in-app notifications.
+- Database-backed direct messaging for accepted connections, including conversation history and unread counts.
 - Mentorship requests between students and verified alumni.
 - Job and internship listings, including authorized alumni posting and ownership checks.
+- Searchable jobs and internships, saved-job API support, and ownership-aware status controls.
+- Community posts, reactions, and comments backed by SQLite.
 - Event listings and authenticated event registration/cancellation.
-- Announcements and an administrator area for verification, user suspension, event management, and CSV export.
+- Announcements and an administrator area for verification, user suspension, department configuration, report review, event management, and CSV export.
 - Original AlumniConnect SVG brand assets and a responsive, keyboard-accessible interface.
 
-The home page figures and sample content come from the local database. Seeded people and listings are fictional and identified as demo content in the interface.
+The home page figures and sample content come from the local database. Five alumni profiles and their seeded education and career histories are fictional; the interface labels them as local demo content and does not mark fictional profiles as verified.
 
 ## Technology
 
@@ -94,7 +100,8 @@ The integration tests launch an isolated server and temporary SQLite database. T
 ## Architecture and data
 
 - `server.js` defines the API, session and CSRF middleware, and role checks.
-- `src/db.js` initializes the SQLite schema and fictional seed records.
+- `src/db.js` initializes the SQLite schema and fictional seed records; `src/migrations.js` adds backward-compatible profile, directory, messaging, job, event, and community tables and fields.
+- `src/feature-routes.js` defines department, search, detailed profile, messaging, community, privacy, and dashboard endpoints.
 - `src/patterns/` contains the database singleton, notification factory, event bus, and alumni search strategies.
 - `public/index.html`, `public/app.js`, and `public/styles.css` implement the frontend and hash-based page navigation.
 - `public/assets/` contains the AlumniConnect symbol and horizontal logo variants.
@@ -105,7 +112,7 @@ Passwords are bcrypt-hashed. Admin routes use server-side role checks, authentic
 
 ## Demo limits and production work
 
-This is a functional local demo, not a production-ready hosted service. It does not integrate an external authentication provider, email/SMS delivery, real-time messaging, a community post/comment feed, job applications, saved jobs, image uploads, password reset, or Supabase. Email and SMS are not sent. Do not represent an external application or message as delivered.
+This is a functional local demo, not a production-ready hosted service. It does not integrate an external authentication provider, email/SMS delivery, real-time messaging, job applications, image uploads, password reset, or Supabase. Messaging is database-backed and refresh-based; the community feed currently supports text posts and reactions, while moderation and advanced job workflow coverage remain limited. Email and SMS are not sent. Do not represent an external application or message as delivered.
 
 Before a real deployment, replace the in-memory Express session store with a persistent store, remove or securely provision the seeded demo administrator, configure HTTPS and a strong session secret, review Content Security Policy and proxy settings, define privacy/retention policies, add comprehensive input validation and moderation workflows, and perform security testing. The current Helmet configuration disables CSP, and the default session store is not suitable for production.
 
