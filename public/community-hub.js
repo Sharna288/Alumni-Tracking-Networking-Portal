@@ -29,7 +29,7 @@
       "</nav>";
 
   const hero =
-    '<section class="community-hub-hero"><div><span class="eyebrow">ALUMNICONNECT · YOUR NETWORK</span><h1>Community</h1><p>Share ideas, meet people with common interests, and stay close to the events and opportunities across your alumni network.</p></div><div class="community-hub-mark" aria-hidden="true">AC</div></section>';
+    '<section class="community-hub-hero"><div><span class="eyebrow">ALUMNICONNECT · YOUR NETWORK</span><h1>Community</h1><p>Share ideas, meet people with common interests, and stay close to the events and opportunities across your alumni network.</p></div><figure class="community-hub-photo"><img src="/assets/community-network.svg" alt="Illustration of community conversations and shared learning" loading="lazy"><span aria-hidden="true">◎</span></figure></section>';
 
   const frame = (tab, body) => {
     content.innerHTML = hero + linkTabs(tab) + body;
