@@ -130,7 +130,7 @@
             Number(post.like_count || 0) +
             " likes · " +
             Number(post.upvote_count || 0) +
-            " upvotes</span></div><div class="community-hub-post-actions"><button class="button button-outline button-small ' +
+            ' upvotes</span></div><div class="community-hub-post-actions"><button class="button button-outline button-small ' +
             (post.my_reaction === "like" ? "selected" : "") +
             '" data-post-reaction="like" data-post-id="' +
             post.id +
@@ -527,7 +527,7 @@
             esc(person.job_title || person.department || "Alumni connection") +
             "</small><span>" +
             esc(conversation.last_message || "Start a conversation") +
-            "</span></span><span class="community-message-unread">" +
+            '</span></span><span class="community-message-unread">' +
             (Number(conversation.unread_count || 0)
               ? Number(conversation.unread_count) + " new"
               : "Open chat →") +
