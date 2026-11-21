@@ -14,13 +14,27 @@ module.exports = function migrate(db) {
     ],
     departments: [["description", "TEXT NOT NULL DEFAULT ''"], ["active", "INTEGER NOT NULL DEFAULT 1"], ["verification_status", "TEXT NOT NULL DEFAULT 'unverified'"], ["source_url", "TEXT NOT NULL DEFAULT ''"]],
     jobs: [["industry", "TEXT NOT NULL DEFAULT ''"], ["experience_level", "TEXT NOT NULL DEFAULT ''"], ["remote", "INTEGER NOT NULL DEFAULT 0"], ["requirements", "TEXT NOT NULL DEFAULT ''"], ["application_instructions", "TEXT NOT NULL DEFAULT ''"], ["deadline", "TEXT"], ["updated_at", "TEXT NOT NULL DEFAULT ''"]],
-    events: [["mode", "TEXT NOT NULL DEFAULT 'offline'"], ["online_url", "TEXT NOT NULL DEFAULT ''"], ["organizer", "TEXT NOT NULL DEFAULT ''"], ["status", "TEXT NOT NULL DEFAULT 'published'"]],
+    events: [["mode", "TEXT NOT NULL DEFAULT 'offline'"], ["online_url", "TEXT NOT NULL DEFAULT ''"], ["organizer", "TEXT NOT NULL DEFAULT ''"], ["status", "TEXT NOT NULL DEFAULT 'published'"], ["source_url", "TEXT NOT NULL DEFAULT ''"]],
     notifications: [["entity_type", "TEXT NOT NULL DEFAULT ''"], ["entity_id", "INTEGER"], ["link_url", "TEXT NOT NULL DEFAULT ''"]]
   };
   for (const [table, additions] of Object.entries(columns)) {
     const present = new Set(db.prepare('PRAGMA table_info(' + table + ')').all().map(c => c.name));
     for (const [name, definition] of additions) if (!present.has(name)) db.exec('ALTER TABLE ' + table + ' ADD COLUMN ' + name + ' ' + definition);
   }
+  db.prepare(`INSERT INTO events(title,description,location,starts_at,ends_at,mode,organizer,status,source_url)
+    SELECT ?,?,?,?,?,?,?,?,? WHERE NOT EXISTS(SELECT 1 FROM events WHERE lower(title)=lower(?))`)
+    .run(
+      'MU CSE FEST 2026',
+      'A four-day CSE festival at Metropolitan University, Sylhet. Visit the official website for the full program and registration details.',
+      'Metropolitan University, Sylhet',
+      '2026-12-03T00:00:00',
+      '2026-12-06T23:59:59',
+      'offline',
+      'MU CSE FEST 2026',
+      'published',
+      'https://www.mucsefest.com/',
+      'MU CSE FEST 2026',
+    );
   db.exec([
     "CREATE TABLE IF NOT EXISTS education_entries(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,institution TEXT NOT NULL,degree TEXT NOT NULL DEFAULT '',field TEXT NOT NULL DEFAULT '',start_year INTEGER,end_year INTEGER,description TEXT NOT NULL DEFAULT '',university_id INTEGER REFERENCES universities(id),achievements TEXT NOT NULL DEFAULT '',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)",
     "CREATE TABLE IF NOT EXISTS work_experience(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,company TEXT NOT NULL,title TEXT NOT NULL,location TEXT NOT NULL DEFAULT '',start_date TEXT,end_date TEXT,is_current INTEGER NOT NULL DEFAULT 0,description TEXT NOT NULL DEFAULT '',employment_type TEXT NOT NULL DEFAULT '',achievements TEXT NOT NULL DEFAULT '',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)",
@@ -156,4 +170,75 @@ module.exports = function migrate(db) {
   for(const [email,id] of demoPortraits)setPortrait.run('https://images.unsplash.com/'+id+'?auto=format&fit=crop&w=640&h=640&q=90',email);
 
   require("./demo-directory")(db);
+
+  // Public alum profile added by the site administrator.
+  const metUniversity=db.prepare("SELECT id FROM universities WHERE name='Metropolitan University'").get();
+  if(metUniversity){
+    const profileEmail='nafiul.adnan.chowdhury@alumniconnect.invalid';
+    const nafiulSkills='Security Software Engineering, DSA & Algorithm Expert, Technical Interview Mentoring, Azure Cloud, Host Attestation Security, Backend Engineering, Site Reliability Engineering, Full-Stack Software Engineering';
+    const nafiulBio='Security Software Engineer at Microsoft in Dublin, working on Azure Cloud host attestation security to help ensure world-class reliability and security for millions of machine connections. Passionate about mentoring engineers in technical interview preparation and helping candidates succeed in their careers.';
+    const existing=db.prepare('SELECT id FROM users WHERE email=?').get(profileEmail);
+    if(existing){
+      db.prepare("UPDATE users SET name=?,role='alumni',department='Computer Science & Engineering (CSE)',graduation_year=NULL,degree='',skills=?,company='Microsoft',job_title='Security Software Engineer',bio=?,linkedin_url=?,verification_status='verified',source_type='admin_added',source_url=?,headline='Security Software Engineer',profile_photo_url=?,profile_visibility='public',university_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run('Nafiul Adnan Chowdhury',nafiulSkills,nafiulBio,'https://www.linkedin.com/in/nafiul-adnan','https://www.linkedin.com/in/nafiul-adnan','/uploads/alumni/nafiul-adnan-chowdhury-crop.svg',metUniversity.id,existing.id);
+    }else{
+      const passwordHash=require('bcryptjs').hashSync(require('crypto').randomBytes(32).toString('hex'),10);
+      const inserted=db.prepare("INSERT INTO users(name,email,password_hash,role,department,graduation_year,degree,skills,company,job_title,bio,linkedin_url,verification_status,verified_at,source_url,source_type,image_source_url,image_license_or_permission,headline,profile_photo_url,profile_visibility,university_id) VALUES(?,?,?,'alumni','Computer Science & Engineering (CSE)',NULL,'',?,'Microsoft','Security Software Engineer',?,?, 'verified',CURRENT_TIMESTAMP,?,'admin_added','User-provided image','Provided for profile display by the site administrator','Security Software Engineer',?,'public',?)").run('Nafiul Adnan Chowdhury',profileEmail,passwordHash,nafiulSkills,nafiulBio,'https://www.linkedin.com/in/nafiul-adnan','https://www.linkedin.com/in/nafiul-adnan','/uploads/alumni/nafiul-adnan-chowdhury-crop.svg',metUniversity.id);
+      var nafiulProfileId=inserted.lastInsertRowid;
+    }
+    const nafiulId=existing?.id||nafiulProfileId;
+    db.prepare("INSERT INTO education_entries(user_id,institution,degree,field,start_year,end_year,description,university_id,achievements) SELECT ?, 'Metropolitan University','Graduate','Computer Science & Engineering (CSE)',NULL,NULL,'',?,'Graduate' WHERE NOT EXISTS(SELECT 1 FROM education_entries WHERE user_id=? AND university_id=? AND field='Computer Science & Engineering (CSE)')").run(nafiulId,metUniversity.id,nafiulId,metUniversity.id);
+    const microsoftRole=db.prepare("SELECT id FROM work_experience WHERE user_id=? AND company='Microsoft' AND title='Security Software Engineer'").get(nafiulId);
+    const microsoftDescription='Working on Azure Cloud host attestation security, ensuring world-class reliability and security for millions of machine connections.';
+    if(microsoftRole)db.prepare("UPDATE work_experience SET location='Dublin, Ireland',is_current=1,description=?,employment_type='Full-time' WHERE id=?").run(microsoftDescription,microsoftRole.id);
+    else db.prepare("INSERT INTO work_experience(user_id,company,title,location,start_date,end_date,is_current,description,employment_type,achievements) VALUES(?,'Microsoft','Security Software Engineer','Dublin, Ireland',NULL,NULL,1,?,'Full-time','')").run(nafiulId,microsoftDescription);
+    const previousRoles=[['Enosis Solutions','Full-Stack Software Engineer'],['Google','Site Reliability Engineer'],['Workday','Backend Software Engineer']];
+    const addPreviousRole=db.prepare("INSERT INTO work_experience(user_id,company,title,location,start_date,end_date,is_current,description,employment_type,achievements) SELECT ?,?,?,'',NULL,NULL,0,'','','' WHERE NOT EXISTS(SELECT 1 FROM work_experience WHERE user_id=? AND company=? AND title=?)");
+    for(const [company,title] of previousRoles)addPreviousRole.run(nafiulId,company,title,nafiulId,company,title);
+
+    const emrulEmail='emrul.chowdhury@alumniconnect.invalid';
+    const emrulSkills='DSA & Algorithms, Competitive Programming, Java, Python, Kotlin, AWS, Microservices, Distributed Systems, Scalable Backend Systems';
+    const emrulBio='Software Development Engineer at Amazon with 5+ years of experience building scalable backend systems. He specializes in Java, Python, Kotlin, AWS, microservices, and distributed systems. A passionate competitive programmer, he has solved 4,500+ problems and achieved 13th place in national programming contests.';
+    const existingEmrul=db.prepare('SELECT id FROM users WHERE email=?').get(emrulEmail);
+    if(existingEmrul){
+      db.prepare("UPDATE users SET name='Emrul Chowdhury',role='alumni',department='Computer Science & Engineering (CSE)',graduation_year=NULL,degree='',skills=?,company='Amazon',job_title='Software Development Engineer',bio=?,linkedin_url='',verification_status='verified',source_type='admin_added',source_url='',headline='Software Development Engineer',profile_photo_url='/uploads/alumni/emrul-chowdhury-crop.svg',profile_visibility='public',university_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(emrulSkills,emrulBio,metUniversity.id,existingEmrul.id);
+    }else{
+      const emrulPasswordHash=require('bcryptjs').hashSync(require('crypto').randomBytes(32).toString('hex'),10);
+      var emrulInserted=db.prepare("INSERT INTO users(name,email,password_hash,role,department,graduation_year,degree,skills,company,job_title,bio,linkedin_url,verification_status,verified_at,source_url,source_type,image_source_url,image_license_or_permission,headline,profile_photo_url,profile_visibility,university_id) VALUES(? ,? ,? ,'alumni','Computer Science & Engineering (CSE)',NULL,'',?,'Amazon','Software Development Engineer',?,'','verified',CURRENT_TIMESTAMP,'','admin_added','User-provided image','Provided for profile display by the site administrator','Software Development Engineer','/uploads/alumni/emrul-chowdhury-crop.svg','public',?)").run('Emrul Chowdhury',emrulEmail,emrulPasswordHash,emrulSkills,emrulBio,metUniversity.id);
+    }
+    const emrulId=existingEmrul?.id||emrulInserted.lastInsertRowid;
+    db.prepare("UPDATE users SET website_url='https://emrul.ch/' WHERE id=?").run(emrulId);
+    db.prepare("INSERT INTO education_entries(user_id,institution,degree,field,start_year,end_year,description,university_id,achievements) SELECT ?, 'Metropolitan University','Degree','Computer Science & Engineering (CSE)',NULL,NULL,'Degree in Computer Science & Engineering from Metropolitan University.',?,'CSE' WHERE NOT EXISTS(SELECT 1 FROM education_entries WHERE user_id=? AND university_id=? AND field='Computer Science & Engineering (CSE)')").run(emrulId,metUniversity.id,emrulId,metUniversity.id);
+    const amazonRole=db.prepare("SELECT id FROM work_experience WHERE user_id=? AND company='Amazon' AND title='Software Development Engineer'").get(emrulId);
+    const amazonDescription='5+ years of experience building scalable backend systems. Specializes in Java, Python, Kotlin, AWS, microservices, and distributed systems.';
+    if(amazonRole)db.prepare("UPDATE work_experience SET is_current=1,description=? WHERE id=?").run(amazonDescription,amazonRole.id);
+    else db.prepare("INSERT INTO work_experience(user_id,company,title,location,start_date,end_date,is_current,description,employment_type,achievements) VALUES(?,'Amazon','Software Development Engineer','',NULL,NULL,1,?,'','')").run(emrulId,amazonDescription);
+
+    const jakariaEmail='abu.jafar.md.jakaria@alumniconnect.invalid';
+    const jakariaHeadline='Senior Full-Stack Product Engineer | Founder, Progsity & BWJ Tech Ltd. | ERP · EdTech SaaS · LMS | React · Next.js · Node · TypeScript | Senior Lecturer (CSE)';
+    const jakariaSkills='Full-Stack Product Engineering, React, Next.js, Node.js, TypeScript, ERP Systems, EdTech SaaS, LMS, AWS, Algorithms, Data Structures, Software Engineering, Product Development, Startup Leadership, Higher Education Teaching';
+    const jakariaBio='Senior Full-Stack Product Engineer and founder of Progsity and BWJ Tech Ltd., building ERP, EdTech SaaS, and LMS products. Senior Lecturer in Computer Science & Engineering at Metropolitan University Bangladesh. Focuses on React, Next.js, Node.js, and TypeScript.';
+    const existingJakaria=db.prepare('SELECT id FROM users WHERE email=?').get(jakariaEmail);
+    if(existingJakaria){
+      db.prepare("UPDATE users SET name='Abu Jafar Md Jakaria',role='alumni',department='Computer Science & Engineering (CSE)',graduation_year=NULL,degree='',skills=?,company='Metropolitan University Bangladesh',job_title='Senior Lecturer, Department of Computer Science & Engineering',bio=?,linkedin_url='https://www.linkedin.com/in/ajmjakaria/',verification_status='verified',source_type='admin_added',source_url='https://www.linkedin.com/in/ajmjakaria/',headline=?,profile_photo_url='/uploads/alumni/abu-jafar-md-jakaria-crop.svg',profile_visibility='public',university_id=?,city='Sylhet',country='Bangladesh',location='Sylhet, Bangladesh',industry='Software Development & Higher Education',updated_at=CURRENT_TIMESTAMP WHERE id=?").run(jakariaSkills,jakariaBio,jakariaHeadline,metUniversity.id,existingJakaria.id);
+    }else{
+      const jakariaPasswordHash=require('bcryptjs').hashSync(require('crypto').randomBytes(32).toString('hex'),10);
+      var jakariaInserted=db.prepare("INSERT INTO users(name,email,password_hash,role,department,graduation_year,degree,skills,company,job_title,bio,linkedin_url,verification_status,verified_at,source_url,source_type,image_source_url,image_license_or_permission,headline,profile_photo_url,profile_visibility,university_id,city,country,location,industry) VALUES(? ,? ,? ,'alumni','Computer Science & Engineering (CSE)',NULL,'',?,'Metropolitan University Bangladesh','Senior Lecturer, Department of Computer Science & Engineering',?,?,'verified',CURRENT_TIMESTAMP,?,'admin_added','User-provided image','Provided for profile display by the site administrator',?,'/uploads/alumni/abu-jafar-md-jakaria-crop.svg','public',?,'Sylhet','Bangladesh','Sylhet, Bangladesh','Software Development & Higher Education')").run('Abu Jafar Md Jakaria',jakariaEmail,jakariaPasswordHash,jakariaSkills,jakariaBio,'https://www.linkedin.com/in/ajmjakaria/','https://www.linkedin.com/in/ajmjakaria/',jakariaHeadline,metUniversity.id);
+    }
+    const jakariaId=existingJakaria?.id||jakariaInserted.lastInsertRowid;
+    const jakariaRoles=[
+      ['Metropolitan University Bangladesh','Senior Lecturer, Department of Computer Science & Engineering','2025-02',null,1,'Teaches Algorithm Design & Analysis and Software Engineering & Design Patterns; evaluates student code and projects, supervises student research, and contributes to program review and departmental planning.'],
+      ['Metropolitan University Bangladesh','Lecturer','2023-02','2025-01',0,'Lecturer in Computer Science & Engineering.'],
+      ['BWJ Tech Ltd','Founder','2024-01',null,1,'Founded a custom software development company delivering education-management, ERP, and software systems.'],
+      ['Progsity.io','Founder & CEO','2022-12',null,1,'Leads an EdTech platform for programming education in Bangladesh, with practical courses in C, C++, and Data Structures & Algorithms. Sole engineer of the platform, building course, quiz, online judge, coding, video, and payment features.'],
+      ['DesnDev Tech','Founder & Lead Software Engineer','2022-06','2023-01',0,'Built MERN-stack software solutions, including a Union Parishad service and a hotel management system deployed on AWS.'],
+      ['ShohozDeal Ltd.','Co-Founder & CEO','2020-11','2022-05',0,'Led product and software development for a digital services and e-commerce startup.']
+    ];
+    const addJakariaRole=db.prepare("INSERT INTO work_experience(user_id,company,title,location,start_date,end_date,is_current,description,employment_type,achievements) SELECT ?,?,?,?,?,?,?,?,'','' WHERE NOT EXISTS(SELECT 1 FROM work_experience WHERE user_id=? AND company=? AND title=?)");
+    const updateJakariaRole=db.prepare("UPDATE work_experience SET location=?,start_date=?,end_date=?,is_current=?,description=? WHERE user_id=? AND company=? AND title=?");
+    for(const [company,title,startDate,endDate,current,description] of jakariaRoles){
+      const role=db.prepare('SELECT id FROM work_experience WHERE user_id=? AND company=? AND title=?').get(jakariaId,company,title);
+      if(role)updateJakariaRole.run(company==='Metropolitan University Bangladesh'?'Sylhet, Bangladesh':company==='Progsity.io'?'Remote':'',startDate,endDate,current,description,jakariaId,company,title);
+      else addJakariaRole.run(jakariaId,company,title,company==='Metropolitan University Bangladesh'?'Sylhet, Bangladesh':company==='Progsity.io'?'Remote':'',startDate,endDate,current,description,jakariaId,company,title);
+    }
+  }
 };

@@ -1638,4 +1638,240 @@ body[data-page-theme="departments"] .content section.profile-section:has(.grid:e
 
 .department-section:has(.grid:empty){display:none}
 
+/* Keep alumni names and profile details readable on the dark page background. */
+body:not(.home-view) .content .profile-hero-premium .profile-intro h1{color:#f8fafc!important;text-shadow:0 1px 2px rgba(0,0,0,.28)}
+body:not(.home-view) .content .profile-hero-premium .profile-intro>.eyebrow{color:#f4f8fc!important;font-size:11px;font-weight:800;letter-spacing:.11em;line-height:1.6;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+body:not(.home-view) .content .profile-hero-premium .profile-intro>.subtle,
+body:not(.home-view) .content .profile-hero-premium .profile-headline{color:#d5e0eb!important}
+
+/* App-wide contrast pass for text on the dark glass surfaces. */
+body:not(.home-view) .topbar :is(.welcome-back,.welcome-message,.greeting,p,h1,h2,h3,small,strong,span){color:#f1f5f9!important}
+body:not(.home-view) .topbar a{color:#b9e7e2!important}
+body:not(.home-view) .content{color:#e6edf5}
+body:not(.home-view) .content :is(h1,h2,h3,h4,h5,h6){color:#f8fafc!important;text-shadow:none}
+body:not(.home-view) .content :is(p,small,label,li,dt,dd,blockquote,figcaption,.subtle,.muted,.eyebrow,.meta,.caption,.description){color:#d3deea!important}
+body:not(.home-view) .content :is(strong,b){color:#f1f5f9}
+body:not(.home-view) .content a:not(.button):not(.tab-link){color:#9fe5de!important;text-decoration-thickness:1px}
+body:not(.home-view) .content :is(.card,.panel,.listing,.event-card,.profile-card,.directory-card,.profile-hero-premium,.career-welcome,.career-resource-grid article) :is(h1,h2,h3,h4,h5,h6){color:#f8fafc!important}
+body:not(.home-view) .content :is(.card,.panel,.listing,.event-card,.profile-card,.directory-card,.profile-hero-premium,.career-welcome,.career-resource-grid article) :is(p,small,label,li,.subtle,.muted,.meta,.caption,.description){color:#d3deea!important}
+body:not(.home-view) .content :is(.button,button,.tab-link){text-decoration:none}
+body:not(.home-view) .content :is(input,select,textarea){color:#172b4d!important}
+body:not(.home-view) .content :is(input,textarea)::placeholder{color:#647386!important;opacity:1}
+body:not(.home-view) .content .directory-tools{border-color:rgba(255,255,255,.14)!important;background:rgba(30,41,59,.88)!important;box-shadow:0 10px 28px rgba(2,8,23,.24)}
+body:not(.home-view) .content .university-hero{border-color:rgba(255,255,255,.14);background:linear-gradient(125deg,rgba(15,23,42,.94),rgba(30,41,59,.88))}
+/* Event cards use a dark date tile so white date text never disappears on white. */
+body:not(.home-view) .content .event-card .event-date{min-width:66px;border-color:rgba(191,219,233,.35);background:linear-gradient(145deg,#173b59,#245663);color:#f8fafc}
+body:not(.home-view) .content .event-card .event-date strong{color:#fff!important}
+body:not(.home-view) .content .event-card .event-date small{color:#d9eaf4!important}
+body:not(.home-view) .content .event-card .event-date-range{min-width:88px;padding-right:8px;padding-left:8px}
+body:not(.home-view) .content .event-card .event-date-range strong{font-size:20px;white-space:nowrap}
+body:not(.home-view) .content .event-card .event-location,
+body:not(.home-view) .content .event-card .event-card-foot{color:#d3deea!important}
+body:not(.home-view) .content .event-card .event-source{display:inline-block;margin-top:9px;color:#9fe5de!important;font-size:12px;font-weight:700;text-decoration:underline}
+
+/* Infinite, keyboard-accessible 3D event carousel. */
+.event-carousel{position:relative;isolation:isolate;margin:12px 0 4px;padding:12px 0 20px;overflow:hidden;perspective:1500px}
+.event-carousel:before{position:absolute;z-index:-1;inset:9% 12% 4%;border-radius:50%;background:radial-gradient(ellipse,rgba(79,133,151,.24),rgba(23,43,77,0) 70%);content:"";pointer-events:none}
+.event-carousel-stage{position:relative;min-height:450px;transform-style:preserve-3d}
+.event-carousel .event-card{position:absolute;top:10px;left:50%;width:min(430px,calc(100vw - 76px));height:420px;min-height:0;margin:0;overflow:auto;padding:22px;border:1px solid rgba(220,235,244,.3)!important;border-radius:22px;background:linear-gradient(155deg,rgba(37,57,78,.97),rgba(19,31,49,.98))!important;box-shadow:0 26px 58px rgba(2,9,20,.46)!important;transform-origin:center center;transition:transform .85s cubic-bezier(.2,.72,.18,1),opacity .85s ease,filter .85s ease;backface-visibility:hidden;scrollbar-width:thin}
+body:not(.home-view) .content .event-carousel .event-card{border-color:rgba(220,235,244,.3)!important;background:linear-gradient(155deg,rgba(37,57,78,.97),rgba(19,31,49,.98))!important;box-shadow:0 26px 58px rgba(2,9,20,.46)!important}
+.event-carousel .event-card:after{position:absolute;z-index:-1;inset:0;border-radius:inherit;background:radial-gradient(circle at 100% 0,rgba(73,155,164,.2),transparent 42%),linear-gradient(145deg,transparent 48%,rgba(4,13,27,.28));content:"";pointer-events:none}
+.event-carousel .event-card[data-position="0"]{z-index:6;opacity:1;filter:none;transform:translateX(-50%) translateZ(0) rotateY(0) scale(1);pointer-events:auto}
+.event-carousel .event-card[data-position="-1"]{z-index:4;opacity:.84;filter:saturate(.78);transform:translateX(-50%) translateX(-78%) translateZ(-100px) rotateY(19deg) scale(.87);pointer-events:none}
+.event-carousel .event-card[data-position="1"]{z-index:4;opacity:.84;filter:saturate(.78);transform:translateX(-50%) translateX(78%) translateZ(-100px) rotateY(-19deg) scale(.87);pointer-events:none}
+.event-carousel .event-card[data-position="-2"]{z-index:2;opacity:.54;filter:saturate(.58);transform:translateX(-50%) translateX(-145%) translateZ(-230px) rotateY(29deg) scale(.72);pointer-events:none}
+.event-carousel .event-card[data-position="2"]{z-index:2;opacity:.54;filter:saturate(.58);transform:translateX(-50%) translateX(145%) translateZ(-230px) rotateY(-29deg) scale(.72);pointer-events:none}
+.event-carousel .event-card:not([data-position="0"]):not([data-position="-1"]):not([data-position="1"]):not([data-position="-2"]):not([data-position="2"]){z-index:0;opacity:0;visibility:hidden;transform:translateX(-50%) translateZ(-350px) scale(.6);pointer-events:none}
+.event-carousel .event-card[data-position="0"] .event-card-foot{margin-top:auto}
+.event-carousel .event-card .event-card-top{margin-bottom:23px}
+.event-carousel .event-card h2{font-size:clamp(23px,2.2vw,30px);line-height:1.18}
+.event-carousel .event-card p{font-size:14px;line-height:1.7}
+.event-carousel .event-card .event-location{font-size:12px}
+.event-carousel-arrow{position:absolute;z-index:9;top:50%;display:grid;width:44px;height:44px;place-items:center;border:1px solid rgba(220,235,244,.38);border-radius:50%;background:rgba(15,29,47,.88);color:#f5f8fb;font-size:27px;line-height:1;box-shadow:0 6px 18px rgba(0,0,0,.24);cursor:pointer;transform:translateY(-50%);transition:background .2s,transform .2s}
+.event-carousel-arrow:hover{background:#315f68;transform:translateY(-50%) scale(1.06)}
+.event-carousel-prev{left:10px}.event-carousel-next{right:10px}
+.event-carousel-controls{display:flex;min-height:42px;align-items:center;justify-content:center;gap:18px;margin:0 auto 26px}
+.event-carousel-toggle{padding:7px 12px;border:1px solid rgba(216,232,240,.28);border-radius:999px;background:rgba(25,43,62,.84);color:#e7eff6;font:600 11px 'DM Sans',Arial,sans-serif;cursor:pointer}
+.event-carousel-toggle:hover{border-color:#9fe5de;color:#fff}
+.event-carousel-dots{display:flex;align-items:center;gap:8px}
+.event-carousel-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:#8292a1;cursor:pointer;transition:width .25s,background .25s}
+.event-carousel-dots button.active{width:25px;border-radius:99px;background:#9fe5de}
+.event-carousel-count{min-width:36px;color:#d3deea;font-size:11px;font-variant-numeric:tabular-nums}
+@media(max-width:700px){.event-carousel{margin-right:-12px;margin-left:-12px;padding:8px 0 14px}.event-carousel-stage{min-height:430px}.event-carousel .event-card{top:8px;width:min(400px,calc(100vw - 66px));height:400px;padding:19px;border-radius:18px}.event-carousel .event-card[data-position="-1"]{transform:translateX(-50%) translateX(-78%) translateZ(-100px) rotateY(16deg) scale(.84)}.event-carousel .event-card[data-position="1"]{transform:translateX(-50%) translateX(78%) translateZ(-100px) rotateY(-16deg) scale(.84)}.event-carousel .event-card[data-position="-2"],.event-carousel .event-card[data-position="2"]{opacity:0;visibility:hidden}.event-carousel-arrow{width:37px;height:37px;font-size:23px}.event-carousel-prev{left:5px}.event-carousel-next{right:5px}.event-carousel-controls{gap:11px;margin-bottom:20px}}
+@media(prefers-reduced-motion:reduce){.event-carousel .event-card,.event-carousel-arrow,.event-carousel-dots button{transition:none!important}}
+
+/* Keep the guest sign-in card light and compact within the shared content shell. */
+.guest-mode .content .auth-card{padding:34px 38px 26px}
+.guest-mode .content .auth-card h2{margin:10px 0 6px;color:#172b4d!important;font-size:36px;line-height:1.12}
+.guest-mode .content .auth-card .auth-eyebrow{color:#3f6972!important}
+.guest-mode .content .auth-card .auth-intro{margin-bottom:18px;color:#596b78!important;font-size:13px;line-height:1.6}
+.guest-mode .content .auth-card .welcome-form{gap:12px}
+.guest-mode .content .auth-card .welcome-form .field{gap:6px}
+.guest-mode .content .auth-card .welcome-form label{color:#243b64!important}
+.guest-mode .content .auth-card .welcome-form .input{min-height:46px;color:#202938!important}
+.guest-mode .content .auth-card .welcome-form .input::placeholder{color:#667386!important;opacity:1}
+.guest-mode .content .auth-card .auth-meta{margin-top:-2px;color:#5f6f7e!important;font-size:10px;line-height:1.4}
+.guest-mode .content .auth-card .welcome-submit{min-height:46px;padding-top:0;padding-bottom:0}
+.guest-mode .content .auth-card .auth-switch{margin-top:17px;color:#596b78!important}
+.guest-mode .content .auth-card .auth-switch button{color:#243b64!important}
+.guest-mode .content .auth-card .welcome-demo{margin-top:22px;padding-top:14px;color:#65746f!important}
+.guest-mode .content .auth-card .welcome-demo span:last-child{color:#65746f!important}
+.guest-mode .content .welcome-footer{color:#687681!important}
+@media(max-width:680px){.guest-mode .content .auth-card{padding:30px 24px 24px}.guest-mode .content .auth-card h2{font-size:32px}.guest-mode .content .auth-card .auth-intro{margin-bottom:15px}.guest-mode .content .auth-card .welcome-form{gap:11px}.guest-mode .content .auth-card .welcome-demo{margin-top:18px;padding-top:12px}}
+
+/* Keep the sign-in card readable even when app-wide dark-page rules are active. */
+#content .welcome-screen .auth-card{padding:38px 38px 30px}
+#content .welcome-screen .auth-card .auth-eyebrow{color:#47717a!important}
+#content .welcome-screen .auth-card h2{color:#18334e!important}
+#content .welcome-screen .auth-card .auth-intro{color:#596d7d!important}
+#content .welcome-screen .auth-card .welcome-form label{color:#29465f!important}
+#content .welcome-screen .auth-card .auth-meta{color:#637589!important}
+#content .welcome-screen .auth-card .auth-switch{color:#596d7d!important}
+#content .welcome-screen .auth-card .auth-switch button{color:#21466e!important}
+#content .welcome-screen .auth-card .welcome-demo{color:#657783!important}
+#content .welcome-screen .auth-card .welcome-demo span:last-child{color:#657783!important}
+#content .welcome-screen .welcome-footer{color:#71808b!important}
+#content .welcome-screen .auth-card .auth-intro{margin-bottom:19px}
+#content .welcome-screen .auth-card .welcome-form{gap:12px}
+/* On narrow windows, show a complete sign-in panel instead of a clipped photo column. */
+@media(max-width:850px){
+  #content .welcome-screen{display:grid;grid-template-columns:minmax(0,1fr);width:100%;min-height:100svh;background:linear-gradient(145deg,#e8f0ef 0%,#edf1f4 52%,#e5edf2 100%)}
+  #content .welcome-photo{display:none}
+  #content .welcome-panel{min-height:100svh;justify-content:center;padding:30px 20px;background:transparent}
+  #content .welcome-panel::before{top:-210px;right:-170px;width:360px}
+  #content .auth-card{width:min(100%,460px);margin:auto;padding:34px 36px 28px;border:1px solid #d7e1e4;border-radius:20px;background:#fff;box-shadow:0 20px 55px rgba(28,55,76,.14)}
+  #content .auth-card::before{left:36px;right:36px}
+  #content .auth-card .auth-eyebrow{color:#47717a!important;font-size:10px;font-weight:800;letter-spacing:.16em}
+  #content .auth-card h2{margin:10px 0 6px;color:#18334e!important;font-size:36px;line-height:1.12}
+  #content .auth-card .auth-intro{margin:0 0 19px;color:#596d7d!important;font-size:13px;line-height:1.6}
+  #content .auth-card .welcome-form{gap:12px}
+  #content .auth-card .welcome-form .field{gap:6px}
+  #content .auth-card .welcome-form label{color:#29465f!important;font-size:12px;font-weight:700}
+  #content .auth-card .welcome-form .input{min-height:46px;border-color:#cbd8e0;border-radius:9px;background:#f8fafc;color:#18334e!important}
+  #content .auth-card .welcome-form .input::placeholder{color:#718092!important;opacity:1}
+  #content .auth-card .welcome-form .password-toggle{border-color:#cbd8e0;background:#fff;color:#29465f!important}
+  #content .auth-card .auth-meta{margin-top:0;color:#637589!important;font-size:10px;line-height:1.5}
+  #content .auth-card .welcome-submit{min-height:46px;border-radius:9px;background:#24466f;color:#fff}
+  #content .auth-card .auth-switch{margin-top:17px;color:#596d7d!important;font-size:12px}
+  #content .auth-card .auth-switch button{color:#21466e!important}
+  #content .auth-card .welcome-demo{margin-top:21px;padding-top:13px;border-color:#dce4e6;color:#657783!important}
+  #content .auth-card .welcome-demo span:last-child{color:#657783!important}
+  #content .welcome-footer{margin-top:16px;color:#71808b!important}
+}
+@media(max-width:480px){#content .welcome-screen .welcome-panel{padding:20px 14px}#content .welcome-screen .auth-card{padding:30px 23px 24px;border-radius:16px}#content .welcome-screen .auth-card::before{left:23px;right:23px}#content .welcome-screen .auth-card h2{font-size:32px}#content .welcome-screen .auth-card .auth-intro{margin-bottom:16px}#content .welcome-screen .auth-card .welcome-form{gap:11px}#content .welcome-screen .auth-card .welcome-demo{margin-top:18px}}
+
+/* Make the homepage search prompt easy to read before typing. */
+body.home-view .home-search input{background:#fff!important;color:#172b4d!important}
+body.home-view .home-search input::placeholder{color:#4b5d70!important;opacity:1}
+
 .department-section:has(.grid:empty){display:none}
+
+
+/* Clear, balanced sign-in dialog */
+#modal{position:relative;width:min(510px,calc(100% - 32px));padding:30px 32px 28px;border:1px solid #dce5eb;border-radius:16px;background:#fff;color:#18334e;box-shadow:0 24px 72px rgba(11,30,50,.28)}
+#modal::backdrop{background:rgba(12,28,46,.72);backdrop-filter:blur(3px)}
+#modal #modalBody{color:#243b52;font-family:"DM Sans",Arial,sans-serif;font-size:14px;line-height:1.55}
+#modal #modalBody h1,#modal #modalBody h2,#modal #modalBody h3{margin:0 36px 6px 0;color:#18334e;font-family:Manrope,"DM Sans",Arial,sans-serif;font-weight:750;line-height:1.2}
+#modal #modalBody h2{font-size:22px}
+#modal #modalBody p{margin:7px 0 16px;color:#5c6d7e;font-size:13px;line-height:1.55}
+#modal #modalBody label{display:block;margin:0 0 6px;color:#344d67;font-size:12px;font-weight:700}
+#modal #modalBody .field{gap:5px;margin-bottom:14px}
+#modal #modalBody input,#modal #modalBody select,#modal #modalBody textarea{width:100%;min-height:43px;padding:10px 12px;border:1px solid #cbd7e1;border-radius:9px;background:#fbfcfe;color:#172b4d;font:14px "DM Sans",Arial,sans-serif}
+#modal #modalBody input::placeholder{color:#7b8998;opacity:1}
+#modal #modalBody input:focus,#modal #modalBody select:focus,#modal #modalBody textarea:focus{outline:3px solid rgba(63,117,157,.16);border-color:#477da2}
+#modal #modalBody .password-control{display:flex;gap:8px;align-items:stretch}
+#modal #modalBody .password-control input{min-width:0;flex:1}
+#modal #modalBody .password-control button{min-width:60px;border:1px solid #cbd7e1;border-radius:9px;background:#f5f8fb;color:#24466f;font-weight:700;cursor:pointer}
+#modal #modalBody button.button{min-height:44px;border-radius:9px;background:#245c68;color:#fff;font-size:13px;font-weight:700;transition:background .16s ease,transform .16s ease}
+#modal #modalBody button.button:hover{background:#194a55;transform:translateY(-1px)}
+#modal #modalBody a,#modal #modalBody button:not(.button):not(.modal-close){color:#245c68;font-weight:700}
+#modal #modalBody .subtle{color:#586b7c;font-size:12px;line-height:1.55}
+#modal #modalBody .notice{margin:14px 0 0;padding:11px 13px;border:1px solid #eadfc7;border-radius:10px;background:#fff8e9;color:#624d24;font-size:12px;line-height:1.5}
+#modal .modal-close{z-index:1;top:12px;right:14px;width:32px;height:32px;border-radius:8px;color:#53677a;font-size:22px;line-height:1}
+#modal .modal-close:hover{background:#eef3f7;color:#18334e}
+@media(max-width:520px){#modal{padding:26px 20px 22px;border-radius:14px}#modal #modalBody h2{font-size:20px}}
+
+
+/* Community news: keep the light feature banner readable over the dark site theme. */
+body[data-page-theme="announcements"] .content .news-hero{align-items:center;min-height:188px;padding:30px 34px;border-color:#cbd9dc;background:linear-gradient(120deg,#f4f7f5,#e8f0f1);box-shadow:0 12px 28px rgba(4,18,32,.18)}
+body[data-page-theme="announcements"] .content .news-hero .eyebrow{color:#376c70!important;font-size:10px;font-weight:800;letter-spacing:.13em}
+body[data-page-theme="announcements"] .content .news-hero h2{max-width:680px;margin:10px 0 8px;color:#18334e!important;font-size:clamp(25px,3vw,34px);line-height:1.18}
+body[data-page-theme="announcements"] .content .news-hero p{max-width:680px;margin:0;color:#4f6274!important;font-size:13px;line-height:1.7}
+body[data-page-theme="announcements"] .content .news-hero .button{min-height:43px;padding:0 16px;border:0;border-radius:9px;background:#245c68;color:#fff!important;font-weight:700;box-shadow:0 5px 14px rgba(36,92,104,.18)}
+body[data-page-theme="announcements"] .content .news-hero .button:hover{background:#194a55}
+body[data-page-theme="announcements"] .content .news-grid:has(> .news-card:only-child){grid-template-columns:1fr}
+body[data-page-theme="announcements"] .content .news-card{min-width:0;padding:21px 23px}
+body[data-page-theme="announcements"] .content .news-card-meta{color:#c3d3de!important;letter-spacing:.09em}
+body[data-page-theme="announcements"] .content .news-card h2{margin:14px 0 8px;color:#f8fafc!important;font-size:22px}
+body[data-page-theme="announcements"] .content .news-card p{max-width:850px;color:#d8e2eb!important;font-size:13px;line-height:1.7}
+@media(max-width:650px){body[data-page-theme="announcements"] .content .news-hero{align-items:flex-start;padding:22px 20px}body[data-page-theme="announcements"] .content .news-hero .button{align-self:flex-start;white-space:normal}}
+
+
+/* Keep the greeting and network label legible on the dark glass header. */
+body.home-view .topbar .greeting,body:not(.home-view) .topbar .greeting{color:#f3f7fc!important;text-shadow:0 1px 2px rgba(0,0,0,.22)}
+body.home-view .topbar .eyebrow,body:not(.home-view) .topbar .eyebrow{color:#c2d2df!important}
+
+
+.company-brand{display:inline-flex;align-items:center;gap:6px;vertical-align:middle;color:inherit;font-weight:inherit}.company-brand img{display:inline-block;width:16px;height:16px;flex:0 0 16px;object-fit:contain;vertical-align:middle}
+
+
+/* Larger alumni portraits and more readable profile tags. */
+.alumni-card{padding:24px;gap:16px}
+.alumni-card .person-photo{width:96px;height:96px;flex:0 0 96px;border-width:3px}
+.alumni-person{gap:16px;min-height:96px}
+.alumni-person h3{font-size:16px;line-height:1.3}
+.alumni-person p{font-size:14px;line-height:1.5}
+.alumni-card .tags{gap:8px}
+.alumni-card .tag{padding:7px 10px;font-size:11px;line-height:1.3}
+.alumni-card .card-actions .button{min-height:40px;padding:9px 14px;font-size:12px}
+.company-brand img{width:21px;height:21px;flex-basis:21px}
+@media(max-width:700px){.alumni-card{padding:19px}.alumni-card .person-photo{width:82px;height:82px;flex-basis:82px}.alumni-person{min-height:82px;gap:13px}.alumni-person h3{font-size:15px}.alumni-person p{font-size:13px}}
+
+.profile-detail-grid:has(> :only-child){grid-template-columns:1fr}
+
+
+/* Improve reading comfort on dark alumni profile panels. */
+body:not(.home-view) .content .profile-hero-premium .profile-intro>.eyebrow{color:#eef5fb!important;font-size:12px;font-weight:750;letter-spacing:.08em;line-height:1.6}
+body:not(.home-view) .content .profile-hero-premium .profile-headline{color:#f3f7fb!important;font-size:17px;font-weight:600;line-height:1.6}
+body:not(.home-view) .content .profile-detail-grid .eyebrow,body:not(.home-view) .content .profile-section>.eyebrow{color:#d7e5ef!important;font-size:11px;font-weight:800;letter-spacing:.13em}
+body:not(.home-view) .content .profile-detail-grid h2,body:not(.home-view) .content .profile-section h2{color:#fff!important;font-size:25px;line-height:1.3}
+body:not(.home-view) .content .profile-detail-grid p,body:not(.home-view) .content .profile-section p{color:#f0f4f8!important;font-size:15px;line-height:1.8}
+body:not(.home-view) .content .profile-detail-grid h3,body:not(.home-view) .content .profile-section h3{color:#f7fafc!important;font-size:16px;line-height:1.5}
+body:not(.home-view) .content .profile-detail-grid .tag,body:not(.home-view) .content .profile-hero-premium .tag{color:#f4f7fb!important;font-size:12px;line-height:1.45;padding:7px 10px;background:rgba(226,236,245,.16);border:1px solid rgba(226,236,245,.2)}
+body:not(.home-view) .content .profile-section .timeline-item strong{color:#fff!important;font-size:15px;line-height:1.6}
+body:not(.home-view) .content .profile-section .timeline-item .subtle{color:#dce7f0!important;font-size:13px;line-height:1.7}
+body:not(.home-view) .content .profile-section .timeline-item p{color:#edf3f8!important;font-size:14px;line-height:1.75}
+body:not(.home-view) .content .profile-about,body:not(.home-view) .content .profile-section,body:not(.home-view) .content .profile-detail-grid>.panel{background:rgba(25,38,57,.94)!important}
+
+.company-brand{gap:8px;font-weight:700}.company-brand img{width:28px;height:28px;flex-basis:28px}
+body:not(.home-view) .content .profile-headline .company-brand strong{color:#f3f7fb!important;font-size:15px}
+
+/* Never show the empty Projects or Certifications panels on alumni profiles. */
+body:not(.home-view) .content .profile-section:has(.grid > .subtle),body:not(.home-view) .content .profile-section:has(.list > .subtle){display:none!important}
+
+
+/* Dark-theme contact links must not render as low-contrast white tiles. */
+body:not(.home-view) .content .profile-contact{background:rgba(25,38,57,.94)!important;border-color:rgba(226,236,245,.2)!important}
+body:not(.home-view) .content .profile-contact .contact-options>a{background:rgba(12,25,43,.72)!important;border:1px solid rgba(192,211,227,.28)!important;box-shadow:0 4px 12px rgba(0,0,0,.16)}
+body:not(.home-view) .content .profile-contact .contact-options>a span{color:#c4d4e2!important;font-size:10px;font-weight:700;letter-spacing:.12em}
+body:not(.home-view) .content .profile-contact .contact-options>a strong{color:#f3f7fb!important;font-size:14px;line-height:1.5}
+body:not(.home-view) .content .profile-contact .contact-options>a:hover{background:rgba(35,58,82,.92)!important;border-color:#8eafc4!important}
+.contact-employer{display:flex;align-items:center;gap:12px;margin-top:17px;padding:12px 14px;border:1px solid rgba(190,211,227,.24);border-radius:12px;background:rgba(11,26,45,.62)}
+.contact-employer>span:first-child{color:#c4d4e2;font-size:10px;font-weight:800;letter-spacing:.12em}
+.contact-employer .company-brand{gap:9px;color:#fff;font-size:16px}
+.contact-employer .company-brand img{width:34px;height:34px;flex-basis:34px}
+.contact-employer .company-brand strong{color:#fff!important;font-size:16px}
+
+
+.alumni-company-badge{display:inline-flex;align-items:center;gap:9px;width:fit-content;max-width:100%;padding:8px 12px;border:1px solid rgba(170,204,222,.32);border-radius:10px;background:rgba(12,31,50,.75);color:#f4f8fc;font-size:13px;font-weight:750;line-height:1.35}.alumni-company-badge img{width:27px;height:27px;flex:0 0 27px;object-fit:contain}.alumni-company-badge span{overflow-wrap:anywhere}
+@media(max-width:700px){.alumni-company-badge{font-size:12px}.alumni-company-badge img{width:24px;height:24px;flex-basis:24px}}
+
+.alumni-company-badge.metro-affiliation-badge{gap:10px}.alumni-company-badge.metro-affiliation-badge img{width:112px;height:30px;flex:0 0 112px;object-fit:contain;border-radius:2px}.alumni-company-badge.metro-affiliation-badge span{font-size:13px}
+
+/* Put the dark Metropolitan wordmark on a clean white tile for contrast. */
+.alumni-company-badge.metro-affiliation-badge img{width:148px;height:42px;flex:0 0 148px;object-fit:contain;padding:4px 7px;border:1px solid #e2e8f0;border-radius:7px;background:#fff}
+.alumni-company-badge.metro-affiliation-badge{gap:12px;padding:9px 11px}
+@media(max-width:700px){.alumni-company-badge.metro-affiliation-badge img{width:132px;height:38px;flex-basis:132px}}
+
+.alumni-company-badge.amazon-brand img{width:112px;height:38px;flex-basis:112px;object-fit:contain;padding:4px 7px;border:1px solid #e2e8f0;border-radius:7px;background:#fff}
+.company-brand.amazon-brand img{width:88px;height:30px;flex-basis:88px;object-fit:contain;padding:2px 5px;border:1px solid #e2e8f0;border-radius:5px;background:#fff}
