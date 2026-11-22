@@ -8,3 +8,5 @@ Local asset: bangladesh-alumni-networking.jpg (2200 × 1467 px).
 - `bangladesh-divisions.svg`: Nafsadh, Wikimedia Commons, CC0/public domain. https://commons.wikimedia.org/wiki/File:Bangladesh_divisions_english.svg
 
 - `home-library-background.jpg`: User-provided homepage background image.
+
+- Metropolitan University campus building photo: https://metrouni.edu.bd/uploads/2023/05/MU-Building-1024x606.jpg (official Metropolitan University website; accessed 2026-11-23).
