@@ -549,14 +549,15 @@
         .join("");
       frame(
         tab,
-        '<section class="community-section-block"><div class="community-section-heading"><div><span class="eyebrow">PRIVATE CONVERSATIONS</span><h2>Your messages</h2><p>Continue a chat or send a first message to any accepted connection.</p></div><a class="button button-outline" href="#messages">Open messages →</a></div><div class="community-message-list">' +
+        '<section class="community-section-block"><div class="community-section-heading"><div><span class="eyebrow">PRIVATE CONVERSATIONS</span><h2>Your messages</h2><p>Continue a chat or send a first message to any accepted connection.</p></div><a class="button button-outline" href="#messages">Open messages →</a></div><div class="community-message-filters"><label><span class="sr-only">Search conversations</span><input class="input" id="communityConversationSearch" type="search" placeholder="Search conversations"></label><label><span class="sr-only">Filter conversations</span><select class="input" id="communityConversationFilter"><option value="all">All messages</option><option value="unread">Unread only</option></select></label></div><div class="community-message-list"> id="communityInboxList"' +
           (rows ||
             '<section class="panel community-empty"><span>✉</span><h3>No messages yet</h3><p>Start a private conversation with one of your accepted connections below.</p></section>') +
-          '</div></section><section class="community-section-block"><div class="community-section-heading"><div><span class="eyebrow">YOUR NETWORK</span><h2>Start a conversation</h2><p>Messages are available between accepted connections.</p></div><a class="text-link" href="#community?tab=members">Find alumni →</a></div><div class="community-message-list">' +
+          '<section id="communityInboxNoResults" class="panel community-empty hidden"><h3>No matching conversations</h3><p>Try another name or message keyword.</p></section></div></section><section class="community-section-block"><div class="community-section-heading"><div><span class="eyebrow">YOUR NETWORK</span><h2>Start a conversation</h2><p>Messages are available between accepted connections.</p></div><a class="text-link" href="#community?tab=members">Find alumni →</a></div><div class="community-message-list">' +
           (contactRows ||
             '<section class="panel community-empty"><span>◎</span><h3>No accepted connections yet</h3><p>Explore alumni and send a connection request. Once it is accepted, you can message each other here.</p><a class="button button-outline" href="#community?tab=members">Explore members →</a></section>') +
           "</div></section>",
       );
+      const filterCommunityInbox=()=>{const query=$("#communityConversationSearch").value.trim().toLowerCase(),unreadOnly=$("#communityConversationFilter").value==="unread";let visible=0;$$("#communityInboxList .community-message-row").forEach(row=>{const unread=row.querySelector(".community-message-unread")?.textContent.toLowerCase().includes("new");const match=row.textContent.toLowerCase().includes(query)&&(!unreadOnly||unread);row.classList.toggle("hidden",!match);if(match)visible++});$("#communityInboxNoResults").classList.toggle("hidden",visible>0)};$("#communityConversationSearch").oninput=filterCommunityInbox;$("#communityConversationFilter").onchange=filterCommunityInbox;
       $$('[data-community-new-message]').forEach(
         (form) =>
           (form.onsubmit = async (event) => {

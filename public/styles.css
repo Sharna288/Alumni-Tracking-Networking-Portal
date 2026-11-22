@@ -1981,3 +1981,55 @@ body:not(.home-view) #content .community-hub-tabs .community-hub-tab span{color:
 body:not(.home-view) #content .community-hub-tabs .community-hub-tab:hover{background:rgba(255,255,255,.1)!important;color:#fff!important}
 body:not(.home-view) #content .community-hub-tabs .community-hub-tab.active{background:#397d79!important;color:#fff!important;box-shadow:0 3px 10px rgba(2,8,23,.22)!important}
 body:not(.home-view) #content .community-hub-tabs .community-hub-tab.active span{color:#fff!important}
+
+/* Message inbox search, unread filter, and clear conversation states. */
+.message-inbox-tools{display:flex;align-items:center;gap:10px;margin:18px 0 12px;padding:12px!important}
+.message-search{position:relative;display:flex;align-items:center;flex:1;min-width:200px}
+.message-search>span{position:absolute;left:12px;z-index:1;color:#5d7785;font-size:19px}
+.message-search input{width:100%;height:40px;padding:0 12px 0 35px!important;background:#fff!important;color:#1b3449!important}
+.message-filter{width:190px}
+.message-filter select{width:100%;height:40px;background:#fff!important;color:#1b3449!important}
+#messageInbox{display:grid;gap:9px;max-height:none}
+#messageInbox .message-row{display:flex;align-items:center;gap:13px;padding:14px 16px;border:1px solid rgba(203,213,225,.17);border-radius:13px;background:rgba(22,37,56,.9);color:#ecf3f8!important;text-decoration:none;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+#messageInbox .message-row:hover{border-color:rgba(144,190,190,.48);background:rgba(34,57,76,.96);transform:translateY(-1px)}
+#messageInbox .message-row-copy{display:grid;gap:4px;flex:1;min-width:0}
+#messageInbox .message-row-copy strong{color:#f3f7fa!important;font-size:13px}
+#messageInbox .message-row-copy small{color:#bdcad5!important;font-size:11px}
+#messageInbox .message-row-copy>span{overflow:hidden;color:#d2dce5!important;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+#messageInbox .message-row-time{color:#cfdae3!important;font-size:11px;white-space:nowrap}
+#messageInbox .message-row-time b{display:inline-flex;padding:5px 9px;border-radius:999px;background:#397d79;color:#fff;font-size:10px}
+#messageNoResults{margin:14px 0;padding:20px}
+#messageNoResults h2{margin:0 0 6px;color:#f3f7fa}
+#messageNoResults p{margin:0;color:#cbd5e1}
+@media(max-width:620px){.message-inbox-tools{align-items:stretch;flex-direction:column}.message-search,.message-filter{width:100%;min-width:0}#messageInbox .message-row{padding:12px}.message-row-time{max-width:70px}}
+
+/* Community inbox search controls. */
+.community-message-filters{display:flex;gap:9px;margin:0 0 12px}
+.community-message-filters label:first-child{flex:1}
+.community-message-filters .input{width:100%;min-height:39px;background:#fff;color:#203a53}
+#communityInboxList{display:grid;gap:9px}
+#communityInboxList .community-message-row{border:1px solid #dce5e2;transition:background .18s ease,border-color .18s ease}
+#communityInboxList .community-message-row:hover{border-color:#8cb7b0;background:#f5faf8}
+#communityInboxNoResults{padding:18px}
+@media(max-width:620px){.community-message-filters{flex-direction:column}}
+
+/* Professional private message thread and composer. */
+body:not(.home-view) .content .message-thread{width:min(100%,920px);margin:0 auto;padding:18px;border:1px solid rgba(203,213,225,.18);border-radius:18px;background:linear-gradient(145deg,rgba(25,41,60,.98),rgba(15,28,44,.98));box-shadow:0 16px 38px rgba(2,8,23,.23)}
+body:not(.home-view) .content .message-thread>.text-link{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;color:#a9d7d4!important;font-weight:650}
+body:not(.home-view) .content .message-thread-head{display:flex;align-items:center;gap:13px;margin:0 0 14px;padding:15px 17px;border:1px solid rgba(203,213,225,.17);border-radius:13px;background:rgba(255,255,255,.045)}
+body:not(.home-view) .content .message-thread-head h1{margin:0;color:#f4f8fb!important;font:500 20px/1.2 DM Sans,Arial,sans-serif!important}
+body:not(.home-view) .content .message-thread-head p{margin:4px 0 0;color:#c0ced9!important;font-size:12px}
+.message-private-label{display:inline-flex;align-items:center;gap:7px;margin-left:auto;padding:7px 10px;border:1px solid rgba(149,193,184,.24);border-radius:999px;background:rgba(60,119,109,.16);color:#d5e9e4;font-size:10px;white-space:nowrap}
+.message-private-label>span{color:#76c2a8;font-size:8px}
+body:not(.home-view) .content .message-thread-body{display:flex;flex-direction:column;gap:11px;min-height:290px;max-height:58vh;overflow:auto;padding:20px;border:1px solid rgba(203,213,225,.15);border-radius:14px;background:rgba(8,18,31,.56);scroll-behavior:smooth}
+body:not(.home-view) .content .message-bubble{max-width:min(78%,600px);padding:12px 15px;border:1px solid rgba(203,213,225,.15);border-radius:14px 14px 14px 4px;background:#26394f;box-shadow:0 4px 12px rgba(2,8,23,.12)}
+body:not(.home-view) .content .message-bubble p{margin:0;color:#f0f5f8!important;font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+body:not(.home-view) .content .message-bubble time{display:block;margin-top:7px;color:#c1cfda!important;font-size:10px}
+body:not(.home-view) .content .message-bubble.message-mine{align-self:flex-end;border-color:rgba(149,204,190,.28);border-radius:14px 14px 4px 14px;background:linear-gradient(135deg,#2f716b,#285f68)}
+.message-compose-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.message-compose-footer>span{color:#c4d0da;font-size:10px;line-height:1.4}
+.message-compose-footer .button{display:inline-flex;align-items:center;gap:8px;min-height:39px}
+.message-compose-footer .button:disabled{opacity:.55;cursor:not-allowed}
+body:not(.home-view) .content .message-compose{display:grid;gap:9px;margin-top:12px;padding:12px;border:1px solid rgba(203,213,225,.16);border-radius:14px;background:rgba(255,255,255,.045)}
+body:not(.home-view) .content .message-compose textarea{width:100%;min-height:76px;max-height:180px;padding:12px 13px;border:1px solid #d7e0e4;border-radius:10px;background:#f9fbfc;color:#1b3449;font-size:13px;line-height:1.5}
+@media(max-width:620px){body:not(.home-view) .content .message-thread{padding:12px;border-radius:14px}.message-private-label{font-size:0}.message-private-label>span{font-size:9px}.message-compose-footer{align-items:flex-start;flex-direction:column}.message-compose-footer .button{align-self:flex-end}.message-bubble{max-width:90%!important}}
