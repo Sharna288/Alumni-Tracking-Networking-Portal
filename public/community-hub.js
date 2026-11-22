@@ -161,7 +161,7 @@
         composer +
         '<div class="community-feed-heading"><div><span class="eyebrow">LATEST CONVERSATIONS</span><h2>' +
         (currentGroup ? esc(currentGroup.name) : "Your discussion feed") +
-        '</h2></div><select id="communityGroupFilter" class="input"><option value="">All discussions</option>' +
+        '</h2></div><label class="community-discussion-search"><span aria-hidden="true">⌕</span><input class="input" id="communityDiscussionSearch" type="search" placeholder="Search discussions" aria-label="Search discussions"></label><select id="communityGroupFilter" class="input"><option value="">All discussions</option>' +
         groups
           .map(
             (group) =>
@@ -174,10 +174,10 @@
               "</option>",
           )
           .join("") +
-        '</select></div><div class="community-hub-feed">' +
+        '</select></div><div class="community-hub-feed" id="communityHubFeed">' +
         (cards ||
           '<section class="panel community-empty community-start"><span>◉</span><h3>Your community starts with one conversation</h3><p>Ask a question, share a lesson from work, or join a group that matches your interests.</p><div><a class="button button-outline button-small" href="#community?tab=groups">Browse groups</a><a class="button button-outline button-small" href="#community?tab=members">Meet alumni</a></div></section>') +
-        '</div></main><aside class="community-hub-aside panel"><span class="eyebrow">FIND YOUR PEOPLE</span><h2>Good communities start with a conversation.</h2><p>Join a group to follow focused discussions and share with people who have similar interests.</p><a class="button button-outline" href="#community?tab=groups">Explore groups →</a><hr><span class="eyebrow">UP NEXT</span><p>Meet alumni online or on campus.</p><a class="text-link" href="#community?tab=events">Explore events →</a></aside></div>';
+        '</div><section id="communityNoResults" class="panel community-empty hidden"><h3>No matching discussions</h3><p>Try another keyword or choose a different group.</p></section></main><aside class="community-hub-aside panel"><span class="eyebrow">FIND YOUR PEOPLE</span><h2>Good communities start with a conversation.</h2><p>Join a group to follow focused discussions and share with people who have similar interests.</p><a class="button button-outline" href="#community?tab=groups">Explore groups →</a><hr><span class="eyebrow">UP NEXT</span><p>Meet alumni online or on campus.</p><a class="text-link" href="#community?tab=events">Explore events →</a></aside></div>';
       frame(tab, body);
       $("#communityGroupFilter").onchange = (event) => {
         location.hash =
@@ -203,6 +203,7 @@
           toast(error.message);
         }
       };
+      $("#communityDiscussionSearch").oninput=()=>{const query=$("#communityDiscussionSearch").value.trim().toLowerCase();let visible=0;$$(("#communityHubFeed .community-hub-post")).forEach(card=>{const match=card.textContent.toLowerCase().includes(query);card.classList.toggle("hidden",!match);if(match)visible++});const noResults=$("#communityNoResults");noResults.classList.toggle("hidden",!query||visible>0);const initialEmpty=$("#communityHubFeed .community-start");if(initialEmpty)initialEmpty.classList.toggle("hidden",!!query)};
       $$('[data-post-reaction]').forEach(
         (button) =>
           (button.onclick = async () => {
