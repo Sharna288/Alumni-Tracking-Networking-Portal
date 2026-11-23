@@ -51,7 +51,8 @@ function searchAlumniPage(db,query={}){
   const page=Math.max(1,Math.floor(Number(query.page)||1)),limit=Math.min(50,Math.max(1,Math.floor(Number(query.limit)||12)));
   const {sql,params}=whereFor(query);
   const total=db.prepare('SELECT COUNT(*) AS n FROM users WHERE '+sql).get(...params).n;
-  const order=query.sort==='recent'?'created_at DESC':query.sort==='featured'?'is_featured DESC,created_at DESC':query.sort==='year'?'graduation_year DESC,name COLLATE NOCASE':'name COLLATE NOCASE';
+  const metroFeaturedPair=Number(query.university_id)===107&&query.sort!=='recent'&&query.sort!=='featured'&&query.sort!=='year';
+  const order=query.sort==='recent'?'created_at DESC':query.sort==='featured'?'is_featured DESC,created_at DESC':query.sort==='year'?'graduation_year DESC,name COLLATE NOCASE':metroFeaturedPair?"CASE WHEN users.name='Abu Jafar Md Jakaria' THEN 0 WHEN users.name='Nafiul Adnan Chowdhury' THEN 1 WHEN users.name='Emrul Chowdhury' THEN 2 WHEN users.name='Tajbin Jahn' THEN 3 WHEN users.name='Bibek Das' THEN 4 WHEN users.source_type!='fictional_demo' THEN 5 ELSE 6 END,name COLLATE NOCASE":'name COLLATE NOCASE';
   const items=db.prepare('SELECT users.*,COALESCE((SELECT v.name FROM universities v WHERE v.id=users.university_id),(SELECT v.name FROM education_entries e JOIN universities v ON v.id=e.university_id WHERE e.user_id=users.id ORDER BY coalesce(e.end_year,9999) DESC LIMIT 1),\'\') AS university_name FROM users WHERE '+sql+' ORDER BY '+order+' LIMIT ? OFFSET ?').all(...params,limit,(page-1)*limit);
   return {items,total,page,limit};
 }
